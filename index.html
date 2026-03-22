@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Space Shooter - Game Portfolio</title>
+  <style>
+    body {
+      background: #0b0f1a;
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 24px;
+    }
+    
+    .container {
+      max-width: 80%;
+      margin: auto;
+    }
+    
+    h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      color: #9aa4c7;
+      margin-bottom: 30px;
+    }
+    
+    .card {
+      background: #121826;
+      border-radius: 12px;
+      padding: 30px;
+      margin-top: 30px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    }
+    
+    .image-row {
+      
+      gap: 20px;
+      
+      flex-wrap: wrap;
+    }
+    
+    .image-row img {
+      width: 30%;
+    }
+
+    
+    @media (max-width:600px) {
+      
+      .image-row img {
+        width: 100%;
+      }
+      
+    }
+
+    
+    
+    .buttons {
+      margin-bottom: 40px;
+    }
+    
+    button {
+      padding: 14px 30px;
+      margin: 10px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    
+    .play {
+      background: #00d9ff;
+      color: black;
+    }
+    
+    .play:hover {
+      background: #00bcd4;
+    }
+    
+    
+    .code {
+      background: #1c2236;
+      color: white;
+    }
+    
+    .code:hover {
+      background: #2a3352;
+    }
+    
+    .section {
+      text-align: left;
+      margin-top: 40px;
+    }
+    
+    .section h2 {
+      margin-bottom: 10px;
+    }
+    
+    .features {
+      margin-top: 10px;
+      line-height: 1.8;
+      color: #cbd3ff;
+    }
+    
+    .footer {
+      margin-top: 60px;
+      color: #6d78a5;
+      font-size: 14px;
+    }
+  </style>
+  
+</head>
+
+<body>
+  
+  <div class="container">
+    
+    <h1>🚀 Space Shooter</h1>
+    <p class="subtitle">2D Browser Game built with JavaScript & Phaser</p>
+    
+    <div class="card">
+      
+      <div class="image-row">
+        <h4>Game Preview</h4>
+        <img src="./assets/preview/IMG_20260313_060150.jpg" alt="Game Screenshot">
+        <img src="./assets/preview/IMG_20260313_060322.jpg" alt="Game Screenshot">
+        <img src="./assets/preview/Screenshot_2026-03-13-06-18-43-30_40deb401b9ffe8e1df2f1cc5ba480b12.jpg" alt="Game Screenshot">
+        
+
+        <h4>Script Preview</h4>
+        <img style="width: 100%" src="./assets/preview/IMG_20260313_060753.jpg" alt="Script Screenshot">
+        <img style="width: 100%" src="./assets/preview/IMG_20260313_060640.jpg" alt="Script Screenshot">
+        <img style="width: 100%" src="./assets/preview/IMG_20260313_060849.jpg" alt="Script Screenshot">
+      </div>
+      
+      <div class="buttons">
+        
+        <button class="play">▶ Play Demo</button>
+        
+        <a href="https://github.com/SukriyaJuhari/SpaceShooter">
+          <button class="code">Githup Repositor</button>
+        </a>
+      </div>
+    </div>
+    <br>
+  </div>
+  
+  
+  
+  
+  
+  
+  <div class="section">
+    
+    <h2>About This Project</h2>
+    
+    <p>
+      Space Shooter is a 2D arcade-style browser game built using the Phaser 3 framework.
+      The player controls a spaceship and must survive waves of asteroids while firing
+      projectiles and avoiding collisions.
+    </p>
+    
+  </div>
+  
+  <div class="section">
+    
+    <h2>Features</h2>
+    
+    <div class="features">
+      
+      • Player spaceship with touch controls<br>
+      • Dynamic asteroid spawning system<br>
+      • Bullet firing system with visual effects<br>
+      • Collision detection system<br>
+      • Particle-style bullet impact effect<br>
+      • Optimized for mobile browsers<br>
+      • Built using Phaser 3 game framework
+      
+    </div>
+    
+  </div>
+  
+  <div class="section">
+    
+    <h2>Tech Stack</h2>
+    
+    <div class="features">
+      
+      JavaScript<br>
+      Phaser 3<br>
+      HTML5 Canvas<br>
+      GitHub Pages Deployment
+      
+    </div>
+    
+  </div>
+  
+  <div class="footer">
+    
+    Developed by Sukriya Juhari
+    
+  </div>
+  
+  </div>
+  
+  <script>
+    document.querySelector(".play").addEventListener("click", openGame);
+    
+    function openGame() {
+      window.location.href = "./game.html";
+    }
+  </script>
+  
+  
+</body>
+
+</html>
