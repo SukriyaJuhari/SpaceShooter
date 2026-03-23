@@ -1,88 +1,7 @@
-<!--/index.html-->
-<!doctype html> 
-<html lang="en">
 
-<head>
-   <meta charset="UTF-8" />
-   <title>SpaceShooter</title>
-   <link rel="manifest" href="manifest.json">
-<script>
-/*
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./service-worker.js");
-}
-*/
-</script>
-
-    <script src="./phaser.min.js"></script> <!-- Offline CDN -->
-   <script type="module" src="./main.js"></script>
-   <style>
-      html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: black;
-    }
-
-    #game-container {
-      width: 100%;
-      height: 100%;
-      display: block;
-      position: relative;
-    }
-      
-
-   </style>
-</head>
-
-<body>
-   <div id="game"></div>
-   
-</body>
-
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//============================
+// FILE : main.js
+//============================
 
 
 
@@ -90,7 +9,6 @@ if ("serviceWorker" in navigator) {
 import BootScene from './core/bootScene.js';
 import FullScreenBtnScene from './core/fullScreenBtnScene.js';
 import PreloadScene from './core/preloadScene.js';
-import MainMenuScene from './scenes/mainMenuScene.js';
 import GamePlayScene from './scenes/gamePlayScene.js';
 
 const isMobile = window.innerWidth <= 640;
@@ -109,7 +27,6 @@ const config = {
    scene: [
       BootScene,
       PreloadScene,
-      MainMenuScene,
       GamePlayScene,
       FullScreenBtnScene
    ],
@@ -127,543 +44,70 @@ const game = new Phaser.Game(config);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ./core/bootScene.js
-
-
-export default class BootScene extends Phaser.Scene {
-  constructor() {
-    super("bootScene");
-  }
-  preload() {
-    //Background image load/
-    this.load.image('background0', 'assets/image/background/background1.png');
-
-
-  }
-
-  create() {
-    
-    this.scale.scaleMode = Phaser.Scale.FIT;
-    this.scale.pageAlignHorizontally = true;
-    this.scale.pageAlignVertically = true;
-    console.log("Booting... success.")
-   
-    // Setelah siap, langsung ke Preload
-    this.scene.start("preloadScene");
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ./core/fullScreenBtnScene.js
-export default class FullScreenBtnScene extends Phaser.Scene {
-  constructor() {
-    super({ key: 'fullScreenBtnScene', active: true }); // <- aktif langsung
-  }
-  preload()
-  {
-    //UI image fullscreenOff
-    this.load.image('fullscreenOn', 'assets/image/ui/fullscreenOn.png');
-    this.load.image('fullscreenOff', 'assets/image/ui/fullscreenOff.png');
-    
-  }
-  create() {
-    const fsButton = this.add.image(this.scale.width - 20, 20, 'fullscreenOn')
-      .setOrigin(1, 0)
-      .setInteractive()
-      .setScrollFactor(0)
-      .setScale(0.1)
-      .setDepth(99);
-    
-    fsButton.on('pointerup', () => {
-      if (this.scale.isFullscreen) {
-        this.scale.stopFullscreen();
-        fsButton.setTexture('fullscreenOn');
-      } else {
-        this.scale.startFullscreen();
-        fsButton.setTexture('fullscreenOff');
-      }
-    });
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ./core/preloadScene.js
-
-export default class PreloadScene extends Phaser.Scene {
-  constructor() {
-    super("preloadScene");
-  }
-  
-  preload() {
-    this.add.image(
-      this.scale.width / 2,
-      this.scale.height / 2,
-      'background0'
-    );
-    
-    
-    //========================================================================================================
-    //========================================================================================================
-    //Art load start
-    //========================================================================================================
-    //========================================================================================================
-    
-    
-    
-    //========================================================================================================
-    //img load star
-    //========================================================================================================
-    
-    // Memuat gambar kapal pemain level 1
-    this.load.image('playerShipLevel1', 'assets/image/playerShipLevel1/playerShipLevel1.png');
-    // Memuat gambar kapal miring
-    this.load.image('playerShipLevel1Tilt', 'assets/image/playerShipLevel1/playerShipLevel1Tilt.png');
-    
-    
-    
-    //(load item) Weapon upgrade
-    this.load.image('weaponUp', 'assets/image/item/weaponUp.png');
-    
-    //(load item) HealthUp
-    this.load.image('healthUp', 'assets/image/item/healthUp.png');
-    
-    //(load item) HealthOff
-    this.load.image('healthOff', 'assets/image/ui/healthOff.png');
-    
-    
-    
-    
-    //========================================================================================================
-    //img load end
-    //========================================================================================================
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //=======================================================================================
-    //load spritesheet start
-    //=======================================================================================
-    
-    
-    //========================================================================================================
-    //load spritesheet (player atribut/weapon) star
-    
-    //(load item) Shield
-    this.load.spritesheet('playerShield', 'assets/spritesheet/player/attribute/shield_Player_sprsheet.png', {
-      frameWidth: 128,
-      frameHeight: 128
-    });
-    
-    
-    //(player atribut) PlayerShipThruster spritesheet untuk thruster Player
-    this.load.spritesheet('playerShipThruster_Sprsheet', 'assets/spritesheet/player/attribute/playerShipThruster_Sprsheet.png', {
-      frameWidth: 188,
-      frameHeight: 319
-    });
-    
-    //(player weapon) spritesheet untuk animasi emisi peluru
-    this.load.spritesheet('playerBulletEmit_Sprsheet', 'assets/spritesheet/player/weapons/bullet/bulletEmit_sprsheet.png', {
-      frameWidth: 337,
-      frameHeight: 308
-    });
-    
-    //(player weapon) bullet spritesheet animasi
-    this.load.spritesheet('playerBullet_Sprsheet', 'assets/spritesheet/player/weapons/bullet/bullet_sprsheet.png', {
-      frameWidth: 274,
-      frameHeight: 343
-    });
-    
-    //(player weapon) HeavyMissile spritesheet (WxH Belum diatur)
-    this.load.spritesheet('peavyMissile_Sprsheet', 'assets/spritesheet/player/weapons/heavyMissile/heavyMissile_sprsheet.png', {
-      frameWidth: 274,
-      frameHeight: 343
-    });
-    
-    //(player weapon) Missile spritesheet (WxH Belum diatur)
-    this.load.spritesheet('pissile_Sprsheet', 'assets/spritesheet/player/weapons/missile/missile_sprsheet.png', {
-      frameWidth: 274,
-      frameHeight: 343
-    });
-    
-    //(player weapon) leser_blue_sprsheet spritesheet (WxH Belum diatur)
-    this.load.spritesheet('leser_blue_sprsheet', 'assets/spritesheet/player/weapons/leser/leser_blue_sprsheet.png', {
-      frameWidth: 274,
-      frameHeight: 343
-    });
-    
-    //(player weapon) leser_blue_sprsheet spritesheet (WxH Belum diatur)
-    this.load.spritesheet('leser_green_sprsheet', 'assets/spritesheet/player/weapons/leser/leser_green_sprsheet.png', {
-      frameWidth: 274,
-      frameHeight: 343
-    });
-    
-    //(player weapon) leser_blue_sprsheet spritesheet (WxH Belum diatur)
-    this.load.spritesheet('leser_yellow_sprsheet', 'assets/spritesheet/player/weapons/leser/leser_yellow_sprsheet.png', {
-      frameWidth: 274,
-      frameHeight: 343
-    });
-    
-    
-    //load spritesheet (player atribut) end 
-    //=======================================================================================
-    
-    
-    
-    
-    //=======================================================================================
-    //load spritesheet effects explosion start 
-    
-    //effects explosion explosionLarge1 (WxH Belum diatur)
-    this.load.spritesheet(
-      'explosionLarge1',
-      'assets/spritesheet/effects/explosion/explosion_large1_sprsheet.png',
-      {
-        frameWidth: 256,
-        frameHeight: 227
-      }
-    );
-    
-    //effects explosion explosionLarge1 (WxH Belum diatur)
-    this.load.spritesheet(
-      'explosionLarge2',
-      'assets/spritesheet/effects/explosion/explosion_large2_sprsheet.png',
-      {
-        frameWidth: 256,
-        frameHeight: 227
-      }
-    );
-    
-    
-    //effects explosion explosionLarge2 (WxH Belum diatur)
-    this.load.spritesheet(
-      'explosionGreenlarge',
-      'assets/spritesheet/effects/explosion/explosion_green_large_sprsheet.png',
-      {
-        frameWidth: 256,
-        frameHeight: 256
-      }
-    );
-    
-    //effects explosion explosionLarge2 (WxH Belum diatur)
-    this.load.spritesheet(
-      'sparkBulltEffect',
-      'assets/spritesheet/effects/explosion/sparkBulltEffect_sprsheet.png',
-      {
-        frameWidth: 204,
-        frameHeight: 204
-      }
-    );
-    
-    
-    
-    //load spritesheet effects explosion end
-    //=======================================================================================
-    
-    
-    
-    
-    //=======================================================================================
-    //load spritesheet (obstacle asteroid) start
-    
-    
-    //load spritesheet asteroids_small1_rock (obstacle asteroid)
-    this.load.spritesheet(
-      'asteroidSmall1',
-      'assets/spritesheet/obstacle/asteroids/asteroids_small1_rock_sprsheet.png',
-      {
-        frameWidth: 314,
-        frameHeight: 314
-      }
-    );
-    
-    //load spritesheet asteroids_small2_rock (obstacle asteroid)
-    this.load.spritesheet(
-      'asteroidSmall2',
-      'assets/spritesheet/obstacle/asteroids/asteroids_small2_rock_sprsheet.png',
-      {
-        frameWidth: 314,
-        frameHeight: 314
-      }
-    );
-    
-    //load spritesheet asteroids_medium1_rock_sprsheet (obstacle asteroid)
-    this.load.spritesheet(
-      'asteroidMedium1',
-      'assets/spritesheet/obstacle/asteroids/asteroids_medium1_rock_sprsheet.png',
-      {
-        frameWidth: 314,
-        frameHeight: 314
-      }
-    );
-    
-    //load spritesheet asteroids_medium2_rock_sprsheet (obstacle asteroid)
-    this.load.spritesheet(
-      'asteroidMedium2',
-      'assets/spritesheet/obstacle/asteroids/asteroids_medium2_rock_sprsheet.png',
-      {
-        frameWidth: 314,
-        frameHeight: 314
-      }
-    );
-    
-    //load spritesheet asteroids_large1_rock_sprsheet (obstacle asteroid)
-    this.load.spritesheet(
-      'asteroidLarge1',
-      'assets/spritesheet/obstacle/asteroids/asteroids_large1_rock_sprsheet.png',
-      {
-        frameWidth: 318,
-        frameHeight: 318
-      }
-    );
-    
-    //load spritesheet asteroids_large2_rock_sprsheet (obstacle asteroid)
-    this.load.spritesheet(
-      'asteroidLarge2',
-      'assets/spritesheet/obstacle/asteroids/asteroids_large2_rock_sprsheet.png',
-      {
-        frameWidth: 314,
-        frameHeight: 314
-      }
-    );
-    
-    //load spritesheet obstacle (asteroid) end
-    //=======================================================================================
-    
-    
-    
-    
-    //=======================================================================================
-    //load spritesheet end
-    //=======================================================================================
-    
-    
-    
-    
-    
-    
-    
-    
-    //========================================================================================================
-    //========================================================================================================
-    //Art load end
-    //========================================================================================================
-    //========================================================================================================
-    
-    
-    
-    
-    
-    
-    
-    
-    //audio load BulletSound sfx_PlayerShip_BulletFire1
-    this.load.audio('sfxBulletFire1', 'assets/audio/sfx/sfxBulletFire1.wav');
-    
-    //audio load
-    this.load.audio('sfxAsteroidExplosion', 'assets/audio/sfx/sfxExplosion.mp3');
-    //================================================
-    //audio load Backsound
-    this.load.audio('backSound0', 'assets/audio/sound/backsound0.ogg');
-    
-    //================================================
-    
-    
-    
-    
-    // Background loading
-    this.cameras.main.setBackgroundColor("#1a1a1a");
-    
-    // Progress bar graphic
-    let progressBox = this.add.graphics();
-    let progressBar = this.add.graphics();
-    
-    // Kotak luar (background bar)
-    progressBox.fillStyle(0x222222, 0.8);
-    progressBox.fillRect(0, 280, this.scale.width, 5);
-    
-    // Text loading
-    let loadingText = this.add.text(this.scale.width / 2, 250, "Loading...", {
-      font: "20px Arial",
-      fill: "#ffffff"
-    }).setOrigin(0.5);
-    
-    // Text persen
-    let percentText = this.add.text(this.scale.width / 2, 305, "0%", {
-      font: "18px Arial",
-      fill: "#ffffff"
-    }).setOrigin(0.5);
-    
-    // Text asset yang sedang dimuat
-    let assetText = this.add.text(this.scale.width / 2, 360, "", {
-      font: "16px Arial",
-      fill: "#ffffff"
-    }).setOrigin(0.5);
-    
-    // Event progress (0–1)
-    this.load.on("progress", (value) => {
-      progressBar.clear();
-      progressBar.fillStyle(0xffffff, 1);
-      progressBar.fillRect(0, 290, this.scale.width * value, 5);
-      percentText.setText(parseInt(value * 100) + "%");
-    });
-    
-    // Event file progress
-    this.load.on("fileprogress", (file) => {
-      assetText.setText("Loading: " + file.key);
-    });
-    
-    // Event complete
-    this.load.on("complete", () => {
-      progressBar.destroy();
-      progressBox.destroy();
-      loadingText.destroy();
-      percentText.destroy();
-      assetText.destroy();
-      
-      // Setelah selesai → ke MainMenuScene (atau langsung GameplayScene)
-      this.scene.start("mainMenuScene");
-    });
-    
-    
+//============================
+// FILE : burstBullet.js
+//============================
+
+// script/player/weapons/projectiles/burstBullet.js
+
+import WeaponSystem from '../weaponSystem.js';
+
+export default class BurstBullet extends WeaponSystem {
+  constructor(scene, x, y) {
+    super(scene, x, y, 'burstBullet_Sprsheet');
+    scene.add.existing(this);
+    scene.physics.add.existing(this);
+    scene.Collider.setCollKotak(this, 0.6, 0.8);
+    this.tag = "projectiles";
+    this.type = "burstBullet";
+    scene.allObjects.add(this);
+    this.setOrigin(0.5, 0.1);
+    // properti khusus bullet
+    this.damage = 3;
+    this.lifespan = 1000;
+    this.speedY = 800;
+    this.setDepth(6).setScale(0.1, 0.5);
     
   }
   
+  fire(shipBox, x, y, offsetX) {
+    super.fire(x, y);
+    
+    this.setVelocityY(-this.speedY);
+    //  muzzle pakai offsetX (VISUAL)
+    let muzzle = this.scene.add.sprite(offsetX, -80, 'anim_burstBulletMuzzle')
+      .setScale(0.3);
+    
+    muzzle.play('anim_burstBulletMuzzle');
+    
+    this.play('anim_burstBullet');
+    
+    if (shipBox) shipBox.add([muzzle]);
+    
+    muzzle.on('animationcomplete', () => muzzle.destroy());
+    
+    this.scene.sound.play('sfxBulletFire1', {
+      volume: this.scene.SFXvolume,
+      rate: 2.0,
+      detune: 0
+    });
+    
+  }
+  
+  burstBulletEffect(target) {
+  let spark = this.scene.add.sprite(target.x, target.y, 'sparkBulltEffect')
+    .setScale(0.6)
+    .setDepth(7);
+
+  this.scene.sound.play('sfxAsteroidExplosion', {
+    volume: this.scene.SFXvolume - 0.3,
+    rate: 2.0,
+    detune: 0
+  });
+
+  spark.play('anim_sparkBulltEffect');
+  spark.once('animationcomplete', () => spark.destroy());
+}
   
 }
 
@@ -673,95 +117,84 @@ export default class PreloadScene extends Phaser.Scene {
 
 
 
+//============================
+// FILE : burstBulletCreate.js
+//============================
 
+// /script/player/weapons/projectiles/burstBulletCreate.js
+import BurstBullet from './burstBullet.js';
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//./core/colliders.js
-
-export default class Colliders {
-    /**
-     * Set collider kotak (rectangle) secara otomatis
-     * @param {Phaser.Physics.Arcade.Sprite} sprite - objek sprite / physics body
-     * @param {number} widthFactor - 0..1, skala lebar collider relatif displayWidth
-     * @param {number} heightFactor - 0..1, skala tinggi collider relatif displayHeight
-     */
-    static setCollKotak(sprite, widthFactor = 1, heightFactor = 1) {
-        if (!sprite.body) return;
-        
-        const colliderWidth = sprite.displayWidth * widthFactor;
-        const colliderHeight = sprite.displayHeight * heightFactor;
-        
-        sprite.body.setSize(colliderWidth, colliderHeight);
-        sprite.body.setOffset(
-            (sprite.displayWidth - colliderWidth) / 2,
-            (sprite.displayHeight - colliderHeight) / 2
-        );
-    }
+export default class BurstBulletCreate {
+  constructor(scene, shipBox) {
+    this.scene = scene;
+    this.shipBox = shipBox;
     
-    /**
-     * Set collider lingkaran (circle) secara otomatis
-     * @param {Phaser.Physics.Arcade.Sprite} sprite - objek sprite / physics body
-     * @param {number} radiusFactor - 0..1, radius relatif displayWidth
-     */
-    static setCollBulat(sprite, radiusFactor = 0.5) {
-        if (!sprite.body) return;
-        
-        const radius = sprite.displayWidth * radiusFactor;
-        sprite.body.setCircle(radius);
-        sprite.body.setOffset(
-            (sprite.displayWidth - radius * 2) / 2,
-            (sprite.displayHeight - radius * 2) / 2
-        );
-    }
+    this.lastShotTime = 0;
+    this.fireRate = 300;
     
-    static setCollConBulat(container, radius) {
-        let rad = radius * 10;
-        if (container.type === "Container") {
-            container.body.setCircle(rad);
-            container.body.setOffset(-rad, -rad);
-        }
-        else if (container.isBody) {
-            container.setCircle(rad);
-            container.setOffset(-rad, -rad);
-        }
+    this.burstBulletGroup = scene.physics.add.group({
+      classType: BurstBullet,
+      maxSize: 1000,
+      runChildUpdate: true
+    });
+  }
+  
+  
+  update(time, isShooting) {
+    //berfungsi saat weaponsLevel 4
+
+    let level = this.scene.weaponsLevel
+    
+    this.burstBulletLevel = Math.min(level-4, 3);
+    
+    if (!isShooting) return;
+    
+    if (time - this.lastShotTime < this.fireRate) return;
+    this.lastShotTime = time;
+    
+    const pattern = this.getPattern();
+    
+    pattern.forEach((offsetX, i) => {
+      
+      // delay lebih smooth
+      const delay = this.fireRate / 2.4 * i;
+      
+      this.scene.time.delayedCall(delay, () => {
         
-    }
-    /**
-     * Optional: set collider otomatis sesuai bentuk
-     * 'circle' atau 'rectangle'
-     */
-    static setAuto(sprite, shape = 'Kotak', widthFactor = 1, heightFactor = 1, radiusFactor = 0.5) {
-        if (shape === 'Kotak') {
-            this.setRectangle(sprite, widthFactor, heightFactor);
-        } else if (shape === 'Bulat') {
-            this.setCircle(sprite, radiusFactor);
-        }
-    }
+        let x = this.shipBox.x + offsetX;
+        let y = this.shipBox.y;
+        
+        const burstBullet = this.burstBulletGroup.get(x, y);
+        
+        if (!burstBullet) return;
+        
+        burstBullet.setScale(0.3,0.6);
+        const factor = 5;
+        const angle = offsetX;
+        const speed = 1000;
+        
+        const rad = Phaser.Math.DegToRad(angle/factor);
+        
+        
+        const vx = Math.sin(rad) * speed;
+        const vy = -Math.cos(rad) * speed;
+        
+        burstBullet.fire(this.shipBox, x, y - 140, offsetX, vx, vy);
+        
+      });
+      
+    });
+  }
+  
+  getPattern() {
+    return {
+      1: [0],
+      2: [-25, 25],
+      3: [-25, 0, 25],
+      
+    } [this.burstBulletLevel] || [0];
+  }
+  
 }
 
 
@@ -770,559 +203,57 @@ export default class Colliders {
 
 
 
+//============================
+// FILE : weaponCreate.js
+//============================
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//./Scenes/gamePlayScene.js
-
-import { MapBackground } from "../script/map/mapIndex.js";
-import Player from "../script/player/mainPlayer.js";
-import AnimGroup from '../script/animations/animGroup.js';
-import ExplosionPool from "../script/effects/explosionPools.js";
-import AsteroidSpawner from "../script/obstacles/asteroidSpawner.js";
-import ItemPool from "../script/items/itemPool.js";
-
-
-export default class GamePlayScene extends Phaser.Scene {
-  constructor() {
-    super("gamePlayScene");
+// script/player/weapons/weaponCreate.js
+import BasicBulletCreate from './projectiles/basicBulletCreate.js';
+import BurstBulletCreate from './projectiles/burstBulletCreate.js';
+export default class WeaponCreate {
+  constructor(scene, shipBox) {
+    this.scene = scene;
+    this.shipBox = shipBox;
+    
+    this.list = {
+      burstBulletCreate: new BurstBulletCreate(scene, shipBox),
+      basicBulletCreate: new BasicBulletCreate(scene, shipBox)
+    };
+    
+    this.weaponLevels = [
+      { min: 1, weapon: "basicBulletCreate" },
+      { min: 5, weapon: "burstBulletCreate" }
+    ];
+    
+    this.currentWeapon = this.list.basicBulletCreate;
+    
+    this.isShooting = false;
   }
   
-  addScore(amount) {
-    this.score += amount;
-    this.scoreText.setText(this.score);
-  }
-  
-  create() {
+  setWeaponByLevel(level) {
+    let selected = "basicBulletCreate";
     
-    this.gameW = this.scale.width;
-    this.gameH = this.scale.height;
-    this.MUSvolume = 1;
-    this.SFXvolume = 0.5;
-    this.SystemRate = 1.25;
-    
-    
-    this.score = 0;
-    
-    this.scoreText = this.add.text(20, 60, this.score, {
-      fontSize: "20px",
-      fill: "#ffffff"
-    }).setDepth(10);
-    
-    
-    
-    // difficulty system
-    this.difficultyLevel = 1;
-    this.difficultyTimer = 0;
-    
-    
-    //=======================================================================================================================================================================================================
-    // MapBackground create
-    this.MapBg = new MapBackground(this);
-    //=======================================================================================================================================================================================================
-    //
-    //
-    //=======================================================================================================================================================================================================
-    //create animation 
-    
-    new AnimGroup(this);
-    
-    //create effects
-    this.explosionPool = new ExplosionPool(this);
-    
-    //create items
-    //create item pool
-    this.itemPool = new ItemPool(this);
-    //=======================================================================================================================================================================================================
-    //
-    //
-    //=======================================================================================================================================================================================================
-    //obstacle asteroid create
-    
-    this.asteroidSpawner = new AsteroidSpawner(this);
-    //=======================================================================================================================================================================================================
-    //
-    //
-    //=======================================================================================================================================================================================================
-    //Player create
-    this.Player = new Player(this, this.gameW / 2, this.gameH / 1.2);
-    this.playerHP = 5;
-    this.maxHP = 5;
-    
-    this.hpIcons = [];
-    
-    for (let i = 0; i < this.maxHP; i++) {
-      
-      let icon = this.add.image(40 + i * 35, 30, 'healthUp')
-        .setScale(0.3)
-        .setDepth(10);
-      this.hpIcons.push(icon);
-      
-    }
-    
-    this.updateHP();
-    this.playerInvincible = false;
-    
-    
-    //=======================================================================================================================================================================================================
-    //
-    //
-    //
-    //=======================================================================================================================================================================================================
-    //create collider logic start 
-    
-    // ambil group dari player
-    this.bullets = this.Player.weaponPlayer.bulletGroup;
-    this.asteroids = this.asteroidSpawner.asteroidGroup;
-    this.items = this.itemPool.group;
-    
-    //Collision Player vs Asteroid > hitPlayer
-    this.physics.add.overlap(
-      this.Player.objek.ShipBox,
-      this.asteroids,
-      this.hitPlayer,
-      null,
-      this
-    );
-    
-    //collision bullets vs asteroids > hitAsteroid
-    this.physics.add.overlap(
-      this.bullets,
-      this.asteroids,
-      this.hitAsteroid,
-      null,
-      this
-    );
-    
-    //collision Player.objek vs items > collectItem
-    this.physics.add.overlap(
-      this.Player.objek.ShipBox,
-      this.items,
-      this.collectItem,
-      null,
-      this
-    );
-    
-    //create collider logic end 
-    //=======================================================================================================================================================================================================
-    
-    
-    
-    
-    
-    
-  } //create()
-  
-  
-  
-  
-  
-  
-  
-  //=======================================================================================================================================================================================================
-  //create collider function start 
-  
-  
-  
-  
-  //hitAsteroid bullet vs asteroid
-  hitAsteroid(bullet, asteroid) {
-    if (!bullet.active || !asteroid.active) return;
-    
-    // posisi tumbukan
-    const x = bullet.x;
-    const y = bullet.y;
-    
-    bullet.onHit(asteroid);
-    
-    // spark effect
-    let spark = this.add.sprite(x, y, 'sparkBulltEffect')
-      .setScale(0.6)
-      .setDepth(7)
-    spark.play('anim_sparkBulltEffect');
-    spark.once('animationcomplete', () => {
-      spark.destroy();
-    });
-    
-  }
-  
-  
-  
-  //hitPlayer(player vs asteroid)
-  hitPlayer(player, asteroid) {
-    
-    if (!asteroid.active) return;
-    
-    this.Asteroid = asteroid;
-    
-    // cek shield
-    if (this.Player.shieldActive) return;
-    
-    if (this.playerInvincible) return;
-    
-    this.playerInvincible = true;
-    
-    // efek blink player
-    let ship = this.Player.objek.Ship;
-    
-    this.tweens.add({
-      targets: ship,
-      alpha: 0.3,
-      yoyo: true,
-      repeat: 5,
-      duration: 100,
-      onComplete: () => {
-        ship.alpha = 1;
+    this.weaponLevels.forEach(w => {
+      if (level >= w.min) {
+        selected = w.weapon;
       }
     });
     
-    // hancurkan asteroid
-    
-    asteroid.setActive(false);
-    asteroid.setVisible(false);
-    asteroid.body.stop();
-    
-    // efek ledakan hitPlayer
-    this.explosionPool.play(asteroid.x, asteroid.y);
-    
-    // explosion asteroid hit player
-    this.sound.play("sfxAsteroidExplosion", {
-      volume: this.SFXvolume,
-      rate: this.SystemRate
-    });
-    
-    // screen shake
-    this.cameras.main.shake(200, 0.01);
-    
-    // kurangi HP
-    this.playerHP--;
-    
-    this.updateHP();
-    
-    if (this.playerHP <= 0) {
-      this.gameOver();
-    }
-    
-    // invincible 1 detik
-    this.time.delayedCall(1000, () => {
-      this.playerInvincible = false;
-    });
-    
-  } //hitPlayer(player, asteroid) end
-  
-  
-  
-  
-  destroyItem(item) {
-    item.setActive(false);
-    item.setVisible(false);
-    item.body.stop();
+    this.currentWeapon = this.list[selected];
   }
   
-  
-  //collectItem player vs item
-  collectItem(player, item) {
-    
-    if (!item.active) return;
-    
-    switch (item.itemType) {
-      
-      case "healthUp":
-        
-        if (this.playerHP < this.maxHP) {
-          this.playerHP++;
-          this.updateHP();
-        }
-        
-        break;
-        
-        
-      case "weaponUp":
-        
-        let weapon = this.Player.weaponPlayer;
-        
-        weapon.weaponLevel++;
-        weapon.bulletLevel = Math.min(weapon.weaponLevel, 3);
-        
-        break;
-        
-      case "playerShield":
-        
-        this.Player.shieldActive = true;
-        this.Player.shieldTimer = this.time.now;
-        this.Player.shieldSprite.setVisible(true);
-        break;
-        
-    }
-    
-    this.destroyItem(item);
-    
-  }
-  
-  
-  //create collider function end 
-  //=======================================================================================================================================================================================================
-  
-  updateHP() {
-    
-    for (let i = 0; i < this.maxHP; i++) {
-      
-      if (i < this.playerHP) {
-        this.hpIcons[i].setTexture('healthUp');
-      } else {
-        this.hpIcons[i].setTexture('healthOff');
-      }
-      
-    }
-    
-  }
-  
-  destroyPlayer(shipBox) {
-    
-  }
-  
-  gameOver() {
-    
-    let shipBox = this.Player.objek.ShipBox;
-    
-    // explosion player gameOver
-    this.sound.play("sfxAsteroidExplosion", {
-      volume: this.SFXvolume,
-      rate: this.SystemRate
-    });
-    this.explosionPool.play(shipBox.x, shipBox.y);
-    
-    //Hilangkan Objek Player
-    shipBox.setActive(false).setVisible(false);
-    shipBox.body.stop();
-    
-    //Hilangkan Objek Asteroid
-    this.Asteroid.setActive(false).setVisible(false);
-    this.Asteroid.body.stop();
-    
-    
-    //Screen Flash
-    let flash = this.add.rectangle(
-        0, 0,
-        this.scale.width,
-        this.scale.height,
-        0xffffff
-      )
-      .setOrigin(0)
-      .setAlpha(0.8)
-      .setDepth(100);
-    
-    this.tweens.add({
-      targets: flash,
-      alpha: 0,
-      duration: 300,
-      onComplete: () => flash.destroy()
-    });
-    
-    
-    this.cameras.main.shake(500, 0.02);
-    
-    this.physics.pause();
-    
-    // text GAME OVER
-    this.add.text(
-      this.scale.width / 2,
-      this.scale.height / 2 - 80,
-      "GAME OVER",
-      {
-        fontSize: "64px",
-        fill: "#ff0000"
-      }
-    ).setOrigin(0.5);
-    
-    // text restart
-    this.add.text(
-      this.scale.width / 2,
-      this.scale.height / 2 + 40,
-      "Tap to Restart",
-      {
-        fontSize: "32px",
-        fill: "#ffffff"
-      }
-    ).setOrigin(0.5);
-    
-    //text show now score 
-    this.add.text(
-      this.scale.width / 2,
-      this.scale.height / 2 - 10,
-      "Score : " + this.score,
-      {
-        fontSize: "32px",
-        fill: "#ffffff"
-      }
-    ).setOrigin(0.5);
-    
-    
-    // restart game saat layar disentuh
-    this.input.once("pointerdown", () => {
-      
-      this.scene.restart();
-      
-    });
-    
-  }
   
   
   update(time, delta) {
     
+    // ambil level dari scene
+    const level = this.scene.weaponsLevel;
     
+    // DIPANGGIL DI SINI
+    this.setWeaponByLevel(level);
     
-    let spawner = this.asteroidSpawner;
-    
-    if (this.score < 500) {
-      
-      spawner.spawnRate = 1200;
-      spawner.speedMultiplier = 0.8;
-      spawner.maxAsteroidsPerSpawn = 1;
-      
-    }
-    
-    else if (this.score < 1000) {
-      
-      spawner.spawnRate = 1000;
-      spawner.speedMultiplier = 1;
-      spawner.maxAsteroidsPerSpawn = 1;
-      
-    }
-    
-    else if (this.score < 1500) {
-      
-      spawner.spawnRate = 800;
-      spawner.speedMultiplier = 1.3;
-      spawner.maxAsteroidsPerSpawn = 2;
-      
-    }
-    
-    else if (this.score < 2000) {
-      
-      spawner.spawnRate = 600;
-      spawner.speedMultiplier = 1.6;
-      spawner.maxAsteroidsPerSpawn = 3;
-      
-    }
-    
-    else {
-      
-      spawner.spawnRate = 500;
-      spawner.speedMultiplier = 2;
-      spawner.maxAsteroidsPerSpawn = 4;
-      
-    }
-    
-    
-    
-    // update difficulty
-    this.difficultyTimer += delta;
-    
-    if (this.difficultyTimer > 15000) {
-      
-      this.difficultyTimer = 0;
-      
-      let spawner = this.asteroidSpawner;
-      
-      spawner.difficultyLevel += 0.5;
-      
-      // spawn lebih cepat
-      spawner.spawnRate = Math.max(
-        300,
-        spawner.spawnRate - 100
-      );
-      
-      // asteroid lebih cepat
-      spawner.speedMultiplier = Math.min(
-        2.5,
-        spawner.speedMultiplier + 0.1
-      );
-      
-      // spawn lebih banyak asteroid
-      if (spawner.difficultyLevel % 5 === 0) {
-        
-        spawner.maxAsteroidsPerSpawn = Math.min(
-          4,
-          spawner.maxAsteroidsPerSpawn + 1
-        );
-        
-      }
-      
-    }
-    
-    
-    //=======================================================================================================================================================================================================
-    // MapBackground update
-    this.MapBg.update(time, delta);
-    //=======================================================================================================================================================================================================
-    
-    
-    
-    //=======================================================================================================================================================================================================
-    //obstacle asteroid create
-    this.asteroidSpawner.update(time);
-    //=======================================================================================================================================================================================================
-    
-    
-    
-    //=======================================================================================================================================================================================================
-    //Player update
-    this.Player.update(time, delta);
-    //=======================================================================================================================================================================================================
-    
-    
-    // shield timer
-    // shield timer
-    if (this.Player.shieldActive) {
-      
-      if (this.time.now - this.Player.shieldTimer > this.Player.shieldDuration) {
-        
-        this.Player.shieldActive = false;
-        
-        this.Player.shieldSprite.setVisible(false);
-        
-      }
-      
-    }
-    
-    
+    // jalankan weapon aktif
+    this.currentWeapon.update(time, this.isShooting);
   }
 }
 
@@ -1332,207 +263,236 @@ export default class GamePlayScene extends Phaser.Scene {
 
 
 
+//============================
+// FILE : weaponSystem.js
+//============================
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ./scenes/mainMenuScene.js
-
-export default class MainMenuScene
-extends Phaser.Scene
-{
-constructor() {
-super('mainMenuScene');
+// ./script/player/weapons/weaponBase.js
+export default class WeaponSystem extends Phaser.Physics.Arcade.Sprite {
+  constructor(scene, shipBox, x, y, textureKey) {
+    super(scene, shipBox, x, y, textureKey);
+    scene.add.existing(this);
+    scene.physics.add.existing(this);
+    
+    this._spawnTime = 0;
+    
+    this.setActive(false);
+    this.setVisible(false);
+  }
+  
+  //projectile
+  fire(x, y) {
+    this.body.reset(x, y);
+    this.setActive(true);
+    this.setVisible(true);
+    
+    // jangan set velocity di sini lagi kalau pakai vector
+    // this.setVelocityY(-speedY);
+    
+    this._spawnTime = this.scene.time.now;
+  }
+  
+  //beam system
+  applyContinuousDamage(target, time) {
+    if (!this.isContinuous) return;
+    
+    if (time - this.lastDamageTime > this.damageInterval) {
+      if (target.takeDamage) {
+        target.takeDamage(this.damage);
+      }
+      
+      this.lastDamageTime = time;
+    }
+  }
+  
+  
+  
+  
+  
+  preUpdate(time, delta) {
+    super.preUpdate(time, delta);
+    if (this.active && time - this._spawnTime > this.lifespan) {
+      this.kill();
+    }
+  }
+  
+  kill() {
+    this.setActive(false);
+    this.setVisible(false);
+    this.body.stop();
+  }
+  
+  onHit(target, time) {
+    if (this.isContinuous) {
+      this.applyContinuousDamage(target, time);
+    } else {
+      if (target.takeDamage) target.takeDamage(this.damage);
+      this.kill();
+    }
+  }
 }
 
 
-create()
-{
-this.Background0 = this.add.image(
-this.scale.width / 2,
-this.scale.height / 2,
-'background0'
-);
 
-this.titleText = this.add.text(
-this.scale.width / 2,
-this.scale.height / 2,
-'Tap To Play',
-{
-fontSize: '32px',
-color: '#ffffff'
+
+
+
+
+//============================
+// FILE : basicBullet.js
+//============================
+
+// script/player/weapons/projectiles/burstBullet.js
+
+import WeaponSystem from '../weaponSystem.js';
+
+export default class BasicBullet extends WeaponSystem {
+  constructor(scene, x, y) {
+    super(scene, x, y, 'bullet1_blue');
+    scene.add.existing(this);
+    scene.physics.add.existing(this);
+    scene.Collider.setCollKotak(this, 0.6, 0.8);
+    this.tag = "projectiles";
+    this.type = "basicBullet";
+    scene.allObjects.add(this);
+    this.setOrigin(0.5, 0.1);
+    // properti khusus bullet
+    this.damage = 1;
+    this.lifespan = 1000;
+    
+    this.setDepth(6).setScale(1, 4);
+    
+  }
+  
+  fire(shipBox, x, y, offsetX, vx, vy) {
+    super.fire(x, y);
+    
+    //  gerakan (physics)
+    this.setVelocity(vx, vy);
+    
+    //  rotasi biar ikut arah
+    this.rotation = Math.atan2(vy, vx) + Math.PI / 2;
+    
+    //  muzzle pakai offsetX (VISUAL)
+    let muzzle = this.scene.add.sprite(offsetX, -80, 'anim_MuzzleBlueBasicBullet')
+      .setScale(0.6);
+    
+    muzzle.play('anim_MuzzleBlueBasicBullet');
+    
+    
+    if (shipBox) shipBox.add([muzzle]);
+    
+    muzzle.on('animationcomplete', () => muzzle.destroy());
+    
+    this.scene.sound.play('sfxBulletFire1', {
+      volume: this.scene.SFXvolume,
+      rate: 2.0,
+      detune: 0
+    });
+    
+  }
+  
+
+  
 }
-).setOrigin(0.5).setInteractive();
-
-this.titleText.on('pointerdown', () => {
-
-this.scene.start('gamePlayScene');
-
-});
 
 
+
+
+
+
+
+//============================
+// FILE : basicBulletCreate.js
+//============================
+
+// /script/player/weapons/projectiles/basicBulletCreate.js
+import BasicBullet from './basicBullet.js';
+
+export default class BasicBulletCreate {
+  constructor(scene, shipBox) {
+    this.scene = scene;
+    this.shipBox = shipBox;
+    
+    this.lastShotTime = 0;
+    this.fireRate = 200;
+    
+    this.BasicBulletGroup = scene.physics.add.group({
+      classType: BasicBullet,
+      maxSize: 1000,
+      runChildUpdate: true
+    });
+  }
+  
+  
+  update(time, isShooting) {
+    
+    let level = this.scene.weaponsLevel
+    this.basicBulletLevel = Math.min(level, 5);
+    
+    if (!isShooting) return;
+    // kurangi fireRate saat level mengikat
+    if (this.basicBulletLevel >= 3) this.fireRate = 250;
+    if (this.basicBulletLevel >= 4) this.fireRate = 300;
+
+    if (time - this.lastShotTime < this.fireRate) return;
+    this.lastShotTime = time;
+    
+    const pattern = this.getPattern();
+    
+    pattern.forEach((offsetX, i) => {
+      
+      // delay lebih smooth
+      const delay = this.fireRate / 2.4 * i;
+      
+      this.scene.time.delayedCall(delay, () => {
+        
+        let x = this.shipBox.x + offsetX;
+        let y = this.shipBox.y;
+        
+        const basicBullet = this.BasicBulletGroup.get(x, y);
+        
+        if (!basicBullet) return;
+        
+        basicBullet.setScale(0.3,0.6);
+        const factor = 5;
+        const angle = offsetX;
+        const speed = 1000;
+        
+        const rad = Phaser.Math.DegToRad(angle/factor);
+        
+        
+        const vx = Math.sin(rad) * speed;
+        const vy = -Math.cos(rad) * speed;
+        
+        basicBullet.fire(this.shipBox, x, y - 140, offsetX, vx, vy);
+        
+      });
+      
+    });
+  }
+  
+  getPattern() {
+    return {
+      1: [0],
+      2: [-25, 25],
+      3: [-25, 0, 25],
+      4: [-30, -15, 0, 15, 30],
+      
+    } [this.basicBulletLevel] || [0];
+  }
+  
 }
 
 
 
-update()
-{
 
-};
 
 
 
-}; //extends Phaser.Scene
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//./script/player/mainPlayer.js
-
-import { Objek, Thruster, Controller, WeaponCreate } from "./index.js";
-
-export default class Player {
-constructor(scene, x, y, spriteKey = 'playerShipLevel1', spriteTiltKey = 'playerShipLevel1Tilt') {
-this.scene = scene;
-
-//objek player
-this.objek = new Objek(scene, spriteKey, x, y);
-const ship = this.objek.Ship;
-const shipBox = this.objek.ShipBox;
-
-
-// shield visual
-this.shieldSprite = scene.add.sprite(0, 0, 'playerShield')
-.setScale(1.2)
-.setDepth(10)
-.play('anim_playerShieldEffect')
-.setVisible(false);
-
-shipBox.add(this.shieldSprite);
-
-
-// thruster player
-this.thruster = new Thruster(scene, shipBox, 34, -34);
-const thrusterL = this.thruster.ThrusterL;
-const thrusterR = this.thruster.ThrusterR;
-
-
-// Weapon Player
-this.weaponPlayer = new WeaponCreate(scene, shipBox);
-
-
-// shield system
-this.shieldActive = false;
-this.shieldTimer = 0;
-this.shieldDuration = 10000; // 10 detik
-
-
-// controller Player (input Touch dan cursor )
-this.controller = new Controller(
-scene,
-ship,
-shipBox,
-thrusterR,
-thrusterL,
-spriteKey,
-spriteTiltKey,
-50, 50, 500
-);
-
-
-}; //constructor())
-
-update(time, delta) {
-
-this.controller.update(time, delta);
-
-// tembak hanya jika layar ditekan
-if (this.controller.shootActive) {
-this.weaponPlayer.update(time, delta);
-}
-}; //update()
-
-}; //export default class Player
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//============================
+// FILE : index.js
+//============================
 
 //./script/player/index.js
 export { default as Objek } from "./objek.js";
@@ -1547,83 +507,9 @@ export { default as WeaponCreate } from "./weapons/weaponCreate.js";
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-//./script/player/objek.js
-import Colliders from '../../core/colliders.js';
-export default class Objek {
-constructor(scene, SpriteKey, x, y, setCircle = 50) {
-
-//==============================================================================
-// Membuat objek player
-this.Ship = scene.add.sprite(0, 0, SpriteKey);
-
-this.Ship.setScale(0.60);
-//==============================================================================
-
-//==============================================================================
-
-// add container Player
-this.ShipBox = scene.add.container(x, y, this.Ship, ).setDepth(4);
-//add physics existing this.PlayerBox container
-scene.physics.add.existing(this.ShipBox);
-this.ShipBox.body.setCollideWorldBounds(true);
-Colliders.setCollConBulat(this.ShipBox.body, 5)
-//==============================================================================
-
-
-}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//============================
+// FILE : thruster.js
+//============================
 
 //./script/player/thruster.js
 export default class Thruster {
@@ -1660,6 +546,82 @@ export default class Thruster {
 
 
 
+//============================
+// FILE : mainPlayer.js
+//============================
+
+//./script/player/mainPlayer.js 
+
+import { Objek, Thruster, Controller, WeaponCreate } from "./index.js";
+
+export default class Player {
+  constructor(scene, x, y, spriteKey = 'playerShipLevel1', spriteTiltKey = 'playerShipLevel1Tilt') {
+    this.scene = scene;
+    
+    //objek player
+    this.objek = new Objek(scene, spriteKey, x, y);
+    const ship = this.objek.Ship;
+    const shipBox = this.objek.ShipBox;
+    
+    
+    // shield visual
+    this.shieldSprite = scene.add.sprite(0, 0, 'playerShield')
+      .setScale(1.2)
+      .setDepth(10)
+      .play('anim_playerShieldEffect')
+      .setVisible(false);
+    
+    shipBox.add(this.shieldSprite);
+    
+    
+    // thruster player
+    this.thruster = new Thruster(scene, shipBox, 34, -34);
+    const thrusterL = this.thruster.ThrusterL;
+    const thrusterR = this.thruster.ThrusterR;
+    
+    
+    // Weapon Player 
+    this.weaponCreate = new WeaponCreate(scene, shipBox);
+    
+    // shield system
+    this.shieldActive = false;
+    this.shieldTimer = 0;
+    this.shieldDuration = 10000; // 10 detik
+    
+    
+    // controller Player (input Touch dan cursor )
+    this.controller = new Controller(
+      scene,
+      ship,
+      shipBox,
+      thrusterR,
+      thrusterL,
+      spriteKey,
+      spriteTiltKey,
+      50, 50, 500
+    );
+    
+    
+  }; //constructor())
+  
+  thrusterVisible(bool) {
+    this.thruster.ThrusterR.setVisible(bool);
+    this.thruster.ThrusterL.setVisible(bool);
+  }
+  
+  update(time, delta) {
+    
+    this.controller.update(time, delta);
+    
+    // tembak hanya jika layar ditekan
+    if (this.controller.shootActive) {
+
+      this.weaponCreate.isShooting = this.controller.shootActive;
+      this.weaponCreate.update(time, delta);
+    }
+  }; //update() 
+  
+}; //export default class Player 
 
 
 
@@ -1667,6 +629,37 @@ export default class Thruster {
 
 
 
+//============================
+// FILE : objek.js
+//============================
+
+//./script/player/objek.js
+
+export default class Objek {
+  constructor(scene, SpriteKey, x, y, setCircle = 50) {
+    
+    //==============================================================================
+    // Membuat objek player
+    this.Ship = scene.add.sprite(0, 0, SpriteKey)
+    .setScale(0.60);
+    //==============================================================================
+    // add container Player
+    this.ShipBox = scene.add.container(x, y, [this.Ship], ).setDepth(4);
+    
+    //add physics existing this.PlayerBox container
+    scene.physics.add.existing(this.ShipBox);
+    // tag ke object yang benar
+    this.ShipBox.tag = "player";
+    // MASUKKAN KE SYSTEM
+    scene.allObjects.add(this.ShipBox);
+    this.ShipBox.body.setCollideWorldBounds(true);
+    scene.Collider.setCollConBulat(this.ShipBox.body, 5)
+    
+    //==============================================================================
+    
+    
+  }
+}
 
 
 
@@ -1674,11 +667,11 @@ export default class Thruster {
 
 
 
+//============================
+// FILE : controller.js
+//============================
 
-
-
-
-//./script/player/controller.js
+//./script/player/controller.js 
 export default class PlayerController {
   constructor(scene, ship, shipBox, thrusterR, thrusterL, ShipKey = 'PlayerShipLevel1', ShipTiltKey = 'PlayerShipLevel1Tilt', tolerTouch = 50, minSpeed = 50, maxSpeed = 300) {
     this.scene = scene;
@@ -1831,346 +824,11 @@ export default class PlayerController {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ./script/player/weapons/bullet.js
-import WeaponBase from './weaponBase.js';
-
-export default class Bullet extends WeaponBase {
-constructor(scene, x, y) {
-super(scene, x, y, 'playerBullet_Sprsheet');
-
-// properti khusus bullet
-this.speed = 1000;
-this.damage = 1;
-this.lifespan = 1000;
-
-console.log(this.scene.SFXvolume);
-
-this.setDepth(6).setScale(0.1, 0.5);
-
-this.play('anim_playerBullet');
-}
-
-fire(shipBox, x, y, offsetX) {
-super.fire(x, y, this.speed);
-
-let muzzle = this.scene.add.sprite(offsetX, -80, 'playerBulletEmit_Sprsheet').setScale(0.3);
-muzzle.play('anim_playerBulletEmit');
-if (shipBox) shipBox.add([muzzle]); // contoh kalau playerBox ada
-muzzle.on('animationcomplete', () => muzzle.destroy());
-
-// suara
-this.scene.sound.play('sfxBulletFire1', {
-volume: this.scene.SFXvolume, // 0.0 - 1.0
-rate: 2.0, // 1 = normal, >1 = lebih cepat
-detune: 0 // opsional, bisa untuk pitch
-});
-}
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ./script/player/weapons/weaponBase.js
-export default class WeaponBase extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, shipBox,x, y, textureKey) {
-    super(scene,shipBox, x, y, textureKey);
-    scene.add.existing(this);
-    scene.physics.add.existing(this);
-
-    this._spawnTime = 0;
-
-    this.setActive(false);
-    this.setVisible(false);
-  }
-
-  fire(x, y, speed) {
-    this.body.reset(x, y);
-    this.setActive(true);
-    this.setVisible(true);
-    this.setVelocityY(-speed);
-    this._spawnTime = this.scene.time.now;
-  }
-
-  preUpdate(time, delta) {
-    super.preUpdate(time, delta);
-    if (this.active && time - this._spawnTime > this.lifespan) {
-      this.kill();
-    }
-  }
-
-  kill() {
-    this.setActive(false);
-    this.setVisible(false);
-    this.body.stop();
-  }
-
-  onHit(target) {
-    if (target.takeDamage) target.takeDamage(this.damage);
-    this.kill();
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ./script/player/weapons/weaponCreate.js
-import Bullet from './bullet.js';
-
-export default class WeaponCreate {
-  constructor(scene, shipBox) {
-    this.scene = scene;
-    this.ShipBox = shipBox;
-    
-    // pengaturan level senjata dan jenisnya
-    this.weaponLevel = 1;
-    
-    //===================================================================================================================
-    //Bullet Program.
-    this.bulletLevel = Math.min(this.weaponLevel, 3);
-    this.lastShotTime = 0; //menyimpan waktu tembakan terakhir
-    this.fireRate = 240; // tembakan 300ms per/bullet
-    // pool peluru (bulletGroup)
-    this.bulletGroup = scene.physics.add.group({
-      classType: Bullet,
-      maxSize: 1000,
-      runChildUpdate: true
-    });
-    
-    this.shootBullet = function(time) {
-      if (time - this.lastShotTime < this.fireRate) return;
-      this.lastShotTime = time;
-      // posisi spawn berdasarkan level Bullet
-      const postPoin = {
-        1: [0],
-        2: [-25, 25],
-        3: [-25, 0, 25]
-      } [this.bulletLevel] || [];
-      postPoin.forEach((offsetX, i) => {
-        this.scene.time.delayedCall(this.fireRate / 2.4 * i, () => {
-          let x = this.ShipBox.x + offsetX;
-          let y = this.ShipBox.y;
-          // ambil bullet dari pool
-          const bullet = this.bulletGroup.get(x, y);
-          bullet.body.setSize(50, 100);
-          if (bullet) {
-            bullet.fire(this.ShipBox, x, y - 160, offsetX);
-          }
-        });
-      });
-    }
-    //Bullet Program.
-    //===================================================================================================================
-    
-  } //constructor
-  
-  update(time, delta) {
-    
-    
-    this.shootBullet(time); //update function Bullet shoot
-    
-  }; //update()
-  
-} //export default class WeaponCreate 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ./script/map/mapBackground.js
-export default class MapBackground {
-constructor(scene) {
-this.scene = scene;
-this.gameW = scene.scale.width;
-
-
-// Membuat background
-this.BGimage0 = scene.add.image(this.gameW / 2, 0, 'background0');
-this.BGimage0Copy1 = scene.add.image(this.gameW / 2, -1920, 'background0');
-this.BGimage0Copy2 = scene.add.image(this.gameW / 2, -1920 * 2, 'background0');
-this.BGList = [
-this.BGimage0,
-this.BGimage0Copy1,
-this.BGimage0Copy2
-];
-
-
-// Backsound game play
-scene.sound.play("backSound0", {
-volume: scene.MUSvolume,
-});
-
-
-
-//Background function
-this.runBG = function(speed, Offset) {
-this.BGList.forEach(BGAll => {
-BGAll.setOrigin(0.5, 0).setDepth(0).setScale(1);
-BGAll.y += speed;
-});
-
-//Background logika
-if (this.BGList[0].y >= Offset) {
-this.BGList[0].y = -Offset;
-}
-if (this.BGList[1].y >= Offset) {
-this.BGList[1].y = -Offset;
-}
-if (this.BGList[2].y >= Offset) {
-this.BGList[2].y = -Offset * 2;
-}
-}
-//CREATE BACKGROUND
-
-}
-
-update () {
-this.runBG(5, this.BGList[0].height);
-}
-}
-
-
-
-
-
-
-
-
-
-// ./script/map/mapIndex.js
-export { default as MapBackground } from "./mapBackground.js";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//============================
+// FILE : asteroid.js
+//============================
 
 //../script/obstacles/asteroid.js
-import Colliders from '../../core/colliders.js';
-
 export default class asteroid extends Phaser.Physics.Arcade.Sprite {
   
   constructor(scene, x, y) {
@@ -2179,12 +837,13 @@ export default class asteroid extends Phaser.Physics.Arcade.Sprite {
     scene.add.existing(this);
     scene.physics.add.existing(this);
     
-    
-    
+    this.tag = "enemy";
+    scene.allObjects.add(this);
     // collider proporsional dan akurat
-    Colliders.setCollBulat(this, 0.20);
+    scene.Collider.setCollBulat(this, 0.18);
+    
     this.setScale(0.6);
-    this.rotationSpeed = 1;
+    this.rotationSpeed = 0.8;
     this.health = 4;
   }
   
@@ -2214,7 +873,7 @@ export default class asteroid extends Phaser.Physics.Arcade.Sprite {
     this.play(`anim_${textureKey}`, true);
     
     this.speed = Phaser.Math.Between(120, 300);
-    this.rotationSpeed = Phaser.Math.FloatBetween(-0.03, 0.03);
+    this.rotationSpeed = Phaser.Math.FloatBetween(-0.02, 0.02);
     
     this.setVelocity(0, this.speed);
     
@@ -2227,23 +886,17 @@ export default class asteroid extends Phaser.Physics.Arcade.Sprite {
     
     if (this.health <= 0) {
       
-      this.scene.sound.play("sfxAsteroidExplosion", { 
+      this.scene.sound.play("sfxAsteroidExplosion", {
         volume: this.scene.SFXvolume,
-        rate : this.scene.SystemRate
+        rate: this.scene.SystemRate
       });
       
       // buat explosionPool explosion baru
       this.scene.explosionPool.play(this.x, this.y);
       
       
-      // chance drop item (20%)
-      if (Phaser.Math.Between(1, 100) <= 15) {
-        
-        const items = ["healthUp", "weaponUp", "playerShield"];
-        const randomItem = Phaser.Utils.Array.GetRandom(items);
-        
-        this.scene.itemPool.spawn(this.x, this.y, randomItem);
-      }
+        this.scene.itemPool.spawn(this.x, this.y);
+
       
       // tambah score
       this.scene.addScore(10);
@@ -2276,31 +929,9 @@ export default class asteroid extends Phaser.Physics.Arcade.Sprite {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//============================
+// FILE : asteroidSpawner.js
+//============================
 
 //../script/obstacles/asteroidSpawner.js
 import asteroid from "./asteroid.js";
@@ -2319,84 +950,83 @@ export default class asteroidSpawner {
       'asteroidLarge2'
     ];
     
-    this.maxasteroids = 8;
+    this.maxAsteroidsInGame = 8;
     this.spawnRate = 1000; // 1 detik
     this.lastSpawn = 0;
+    this.difficultyLevel = 1;
+    this.maxAsteroidsPerSpawn = 1;
+    this.speedMultiplier = 1;
     
     this.asteroidGroup = scene.physics.add.group({
       classType: asteroid,
       runChildUpdate: true
     });
     
-    this.difficultyLevel = 1;
-    this.maxasteroidsPerSpawn = 1;
-    this.speedMultiplier = 1;
-    
     this.spawnPadding = 120; // jarak minimal antar asteroid
     
-    this.spawnLanes = [this.scene.gameW-100, this.scene.gameW-200, this.scene.gameW-300, this.scene.gameW-400, this.scene.gameW-500, this.scene.gameW-600];
+    this.spawnLanes = [this.scene.gameW - 100, this.scene.gameW - 200, this.scene.gameW - 300, this.scene.gameW - 400, this.scene.gameW - 500, this.scene.gameW - 600];
     this.laneOffset = 40;
     
   } //constructor(scene)
   
   
   getSafeX() {
-
-  let tries = 10;
-
-  while (tries > 0) {
-
-    let lane;
-
-    do {
-      lane = Phaser.Utils.Array.GetRandom(this.spawnLanes);
-    } while (lane === this.lastLane);
-
-    this.lastLane = lane;
-
-    const offset = Phaser.Math.Between(-this.laneOffset, this.laneOffset);
-
-    const x = Phaser.Math.Clamp(
-      lane + offset,
-      50,
-      this.scene.scale.width - 50
-    );
-
-    let safe = true;
-
-    this.asteroidGroup.children.iterate((asteroid) => {
-
-      if (!asteroid.active) return;
-
-      const dist = Phaser.Math.Distance.Between(
-        asteroid.x,
-        asteroid.y,
-        x,
-        0
-      );
-
-      if (dist < this.spawnPadding) {
-        safe = false;
-      }
-
-    });
-
-    if (safe) return x;
-
-    tries--;
-
-  }
-
-  return Phaser.Utils.Array.GetRandom(this.spawnLanes);
-
-}
     
+    let tries = 10;
+    
+    while (tries > 0) {
+      
+      let lane;
+      
+      do {
+        lane = Phaser.Utils.Array.GetRandom(this.spawnLanes);
+      } while (lane === this.lastLane);
+      
+      this.lastLane = lane;
+      
+      const offset = Phaser.Math.Between(-this.laneOffset, this.laneOffset);
+      
+      const x = Phaser.Math.Clamp(
+        lane + offset,
+        50,
+        this.scene.scale.width - 50
+      );
+      
+      let safe = true;
+      
+      this.asteroidGroup.children.iterate((asteroid) => {
+        
+        if (!asteroid.active) return;
+        
+        const dist = Phaser.Math.Distance.Between(
+          asteroid.x,
+          asteroid.y,
+          x,
+          0
+        );
+        
+        if (dist < this.spawnPadding) {
+          safe = false;
+        }
+        
+      });
+      
+      if (safe) return x;
+      
+      tries--;
+      
+    }
+    
+    return Phaser.Utils.Array.GetRandom(this.spawnLanes);
+    
+  }
+  
   
   
   
   spawnasteroid() {
-    if (this.asteroidGroup.countActive(true) >= this.maxasteroids) return;
-    for (let i = 0; i < this.maxasteroidsPerSpawn; i++) {
+    if (this.asteroidGroup.countActive(true) >= this.maxAsteroidsInGame) return;
+    for (let i = 0; i < this.maxAsteroidsPerSpawn; i++) {
       
       const x = this.getSafeX();
       const y = -100;
@@ -2427,7 +1057,7 @@ export default class asteroidSpawner {
     // batasi jumlah asteroid di layar
     let activeasteroids = this.asteroidGroup.countActive(true);
     
-    if (activeasteroids >= this.maxasteroids) return;
+    if (activeasteroids >= this.maxAsteroidsInGame) return;
     
     this.lastSpawn = time;
     this.spawnasteroid();
@@ -2442,6 +1072,12 @@ export default class asteroidSpawner {
 
 
 
+//============================
+// FILE : mapIndex.js
+//============================
+
+// ./script/map/mapIndex.js
+export { default as MapBackground } from "./mapBackground.js";
 
 
 
@@ -2450,199 +1086,196 @@ export default class asteroidSpawner {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//============================
+// FILE : item.js
+//============================
 
 //../script/items/item.js
-
-import Colliders from '../../core/colliders.js';
-
 export default class Item extends Phaser.Physics.Arcade.Sprite {
+  
+  constructor(scene, x, y) {
+    super(scene, x, y, 'healthUp');
+    
+    scene.add.existing(this);
+    scene.physics.add.existing(this);
+    
+    this.tag = "item";
+    scene.allObjects.add(this);
+    
+    scene.Collider.setCollBulat(this, 0.25)
+    this.setScale(0.5);
+    this.setActive(false);
+    this.setVisible(false);
+    
+    this.speed = 150;
+  }
+  
+  
+  spawn(x, y, itemType) {
+  
+  this.body.reset(x, y);
 
-constructor(scene, x, y) {
-super(scene, x, y, 'healthUp');
+  this.itemType = itemType;
+  
+  this.setTexture(itemType);
+  
+  this.setActive(true);
+  this.setVisible(true);
+  
+  this.setVelocityY(this.speed);
+}
+  
+  
+  
+  
+  preUpdate(time, delta) {
+    super.preUpdate(time, delta);
+    
+    if (this.y > this.scene.scale.height + 50) {
+  this.setActive(false);
+  this.setVisible(false);
+  this.body.stop();
+  this.body.reset();
 
-scene.add.existing(this);
-scene.physics.add.existing(this);
-
-Colliders.setCollBulat(this, 0.25)
-this.setScale(0.5);
-this.setActive(false);
-this.setVisible(false);
-
-this.speed = 150;
-
-this.itemTypes = ['healthUp','weaponUp', 'playerShield'];
-
+  this.itemType = null;
+}
+    
+  }
+  
 }
 
-spawn(x, y) {
 
-this.body.reset(x, y);
 
-const randomItem = Phaser.Utils.Array.GetRandom(this.itemTypes);
 
-this.itemType = randomItem; // ini yang penting
-this.setTexture(randomItem);
 
-this.setActive(true);
-this.setVisible(true);
 
-this.setVelocityY(this.speed);
 
+//============================
+// FILE : mapBackground.js
+//============================
+
+export default class MapBackground {
+  
+  constructor(scene, bgHeight) {
+    
+    this.scene = scene;
+    this.gameW = scene.scale.width;
+    this.gameH = scene.scale.height;
+    
+    this.scaleRatio = this.gameH / bgHeight;
+    
+    this.bg = this.scene.add.tileSprite(
+      this.gameW / 2,
+      this.gameH / 2,
+      this.gameW,
+      this.gameH,
+      "background0"
+    ).setScale(this.scaleRatio);
+    
+    scene.sound.play("backSound0", {
+      volume: scene.MUSvolume,
+    });
+    
+  }
+  
+  update() {
+    
+    this.bg.tilePositionY -= 2;
+    
+  }
+  
 }
 
 
 
 
-preUpdate(time, delta) {
-super.preUpdate(time, delta);
-
-if (this.y > this.scene.scale.height + 50) {
-this.setActive(false);
-this.setVisible(false);
-this.body.stop();
-this.body.reset();
-}
-
-}
-
-}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//============================
+// FILE : itemPool.js
+//============================
 
 //../script/items/itemPool.js
 import Item from "./item.js";
 
 export default class ItemPool {
+  
+  constructor(scene) {
+    
+    this.scene = scene;
+    
+    this.group = scene.physics.add.group({
+      classType: Item,
+      maxSize: 20,
+      runChildUpdate: true
+    });
+    
+    this.dropTable = [
+  { type: "healthUp", chance:8 },
+  { type: "weaponUp", chance: 6 },
+  { type: "playerShield", chance: 10 }
+];
+    
+  }
+  
+  
+  hasActiveItem(type) {
+    let found = false;
+    
+    this.group.children.iterate(item => {
+      if (!item.active || !item.itemType) return;
+      if (item.itemType === type) {
+        found = true;
+      }
+    });
+    
+    return found;
+  }
+  
+  
+  getRandomItem() {
+    const roll = Phaser.Math.Between(1, 100);
+    let cumulative = 0;
+    
+    for (let item of this.dropTable) {
+      cumulative += item.chance;
+      if (roll <= cumulative) {
+        return item.type;
+      }
+    }
+    
+    return this.dropTable[0].type; // fallback
+  }
+  
+  
+  spawn(x, y) {
 
-constructor(scene) {
+  if (Phaser.Math.Between(1, 100) > 20) return;
 
-this.scene = scene;
+  let tries = 5;
+  let itemType = null;
 
-this.group = scene.physics.add.group({
-classType: Item,
-maxSize: 20,
-runChildUpdate: true
-});
+  while (tries > 0) {
+    let candidate = this.getRandomItem();
 
+    if (!this.hasActiveItem(candidate)) {
+      itemType = candidate;
+      break;
+    }
+
+    tries--;
+  }
+
+  if (!itemType) return;
+
+  let item = this.group.get(x, y);
+  if (!item) return;
+
+  item.spawn(x, y, itemType);
 }
-
-spawn(x, y, type) {
-
-let item = this.group.get(x, y);
-
-if (!item) return;
-
-item.spawn(x, y, type);
-
-}
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//../script/effects/explosion.js
-
-export default class Explosion extends Phaser.GameObjects.Sprite {
-
-constructor(scene, x, y) {
-super(scene, x, y, 'explosionLarge1');
-
-scene.add.existing(this);
-
-this.setActive(false);
-this.setVisible(false);
-
-}
-
-playExplosion(x, y) {
-
-this.setPosition(x, y);
-
-this.setActive(true);
-this.setVisible(true);
-
-this.setScale(0.5);
-
-this.play('anim_explosionLarge1');
-
-this.once('animationcomplete', () => {
-
-this.setActive(false);
-this.setVisible(false);
-
-});
-
-}
-
+  
+  
 }
 
 
@@ -2651,367 +1284,1596 @@ this.setVisible(false);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//============================
+// FILE : explosionPools.js
+//============================
 
 //../script/effects/explosionPool.js
 import Explosion from "./explosion.js";
 
 export default class ExplosionPool {
-
-constructor(scene) {
-this.scene = scene;
-
-this.group = scene.add.group({
-classType: Explosion,
-maxSize: 50,
-runChildUpdate: false
-});
-
+  
+  constructor(scene) {
+    this.scene = scene;
+    
+    this.group = scene.add.group({
+      classType: Explosion,
+      maxSize: 50,
+      runChildUpdate: false
+    });
+     
+  }
+  
+  
+  
+  play(x, y) {
+  
+  let explosion = this.group.get();
+  
+  if (!explosion) return;
+  
+  explosion.playExplosion(x, y);
+  
+}
+  
 }
 
 
 
-play(x, y) {
-
-let explosion = this.group.get();
-
-if (!explosion) return;
-
-explosion.playExplosion(x, y);
-
-}
-
-}
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//============================
+// FILE : animGroup.js
+//============================
 
 //.../script/animations/animGroup.js
 
 export default function AnimGroup(scene) {
+  
+  scene.add.existing(this);
+  
+  
+  if (!scene.anims.exists('anim_playerShieldEffect')) {
+    scene.anims.create({
+      key: 'anim_playerShieldEffect',
+      frames: scene.anims.generateFrameNumbers('playerShield',
+      {
+        start: 0,
+        end: 9
+      }),
+      frameRate: 30,
+      repeat: -1,
+    });
+  }
+  
+  
+  
+  
+  
+  // Membuat animasi untuk thruster
+  if (!scene.anims.exists('anim_playerShipThruster')) {
+    
+    scene.anims.create({
+      key: 'anim_playerShipThruster',
+      frames: scene.anims.generateFrameNumbers(
+        'playerShipThruster_Sprsheet', { start: 0, end: 5 }
+      ),
+      frameRate: 20,
+      repeat: -1
+    });
+    
+  }
+  
+  
+  
+  
+  // efek muzzle flash
+  if (!scene.anims.exists('anim_burstBulletMuzzle')) {
+    scene.anims.create({
+      key: 'anim_burstBulletMuzzle',
+      frames: scene.anims.generateFrameNumbers('burstBulletMuzzle_Sprsheet',
+      {
+        start: 0,
+        end: 3
+      }),
+      frameRate: 70,
+      repeat: 0,
+    });
+  }
+  
+    // efek muzzle flash
+  if (!scene.anims.exists('anim_MuzzleBlueBasicBullet')) {
+    scene.anims.create({
+      key: 'anim_MuzzleBlueBasicBullet',
+      frames: scene.anims.generateFrameNumbers('MuzzleBlueBasicBullet',
+      {
+        start: 0,
+        end: 2
+      }),
+      frameRate: 70,
+      repeat: 0,
+    });
+  }
+  
+      // efek muzzle flash
+  if (!scene.anims.exists('anim_MuzzleGreenBasicBullet')) {
+    scene.anims.create({
+      key: 'anim_MuzzleGreenBasicBullet',
+      frames: scene.anims.generateFrameNumbers('MuzzleGreenBasicBullet',
+      {
+        start: 0,
+        end: 2
+      }),
+      frameRate: 70,
+      repeat: 0,
+    });
+  }
 
-scene.add.existing(this);
+      // efek muzzle flash
+  if (!scene.anims.exists('anim_MuzzleYellowBasicBullet')) {
+    scene.anims.create({
+      key: 'anim_MuzzleYellowBasicBullet',
+      frames: scene.anims.generateFrameNumbers('MuzzleYellowBasicBullet',
+      {
+        start: 0,
+        end: 2
+      }),
+      frameRate: 70,
+      repeat: 0,
+    });
+  }
 
-
-if (!scene.anims.exists('anim_playerShieldEffect')) {
-scene.anims.create({
-key: 'anim_playerShieldEffect',
-frames: scene.anims.generateFrameNumbers('playerShield',
-{
-start: 0,
-end: 9
-}),
-frameRate: 30,
-repeat: -1,
-});
+  
+  // animasi peluru
+  if (!scene.anims.exists('anim_burstBullet')) {
+    scene.anims.create({
+      key: 'anim_burstBullet',
+      frames: scene.anims.generateFrameNumbers('burstBullet_Sprsheet',
+      {
+        start: 0,
+        end: 4
+      }),
+      frameRate: 50,
+      repeat: -1,
+    });
+  }
+  
+  
+  // animasi leser
+    if (!scene.anims.exists('anim_leserBlue')) {
+    scene.anims.create({
+      key: 'anim_leserBlue',
+      frames: scene.anims.generateFrameNumbers('leserBlue_sprsheet',
+      {
+        start: 0,
+        end: 11
+      }),
+      frameRate: 20,
+      repeat: -1,
+    });
+  }
+  
+  
+  /*
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   */
+  
+  
+  
+  
+  //anim_asteroidSmall1
+  if (!scene.anims.exists('anim_asteroidSmall1')) {
+    scene.anims.create({
+      key: 'anim_asteroidSmall1',
+      frames: scene.anims.generateFrameNumbers('asteroidSmall1', {
+        start: 0,
+        end: 19
+      }),
+      frameRate: 20,
+      repeat: -1
+    });
+  }
+  
+  
+  
+  
+  //anim_asteroidSmall2
+  if (!scene.anims.exists('anim_asteroidSmall2')) {
+    scene.anims.create({
+      key: 'anim_asteroidSmall2',
+      frames: scene.anims.generateFrameNumbers('asteroidSmall2', {
+        start: 0,
+        end: 19
+      }),
+      frameRate: 20,
+      repeat: -1
+    });
+  }
+  
+  //anim_asteroidMedium1
+  if (!scene.anims.exists('anim_asteroidMedium1')) {
+    scene.anims.create({
+      key: 'anim_asteroidMedium1',
+      frames: scene.anims.generateFrameNumbers('asteroidMedium1', {
+        start: 0,
+        end: 19
+      }),
+      frameRate: 20,
+      repeat: -1
+    });
+  }
+  
+  //anim_asteroidMedium2
+  if (!scene.anims.exists('anim_asteroidMedium2')) {
+    scene.anims.create({
+      key: 'anim_asteroidMedium2',
+      frames: scene.anims.generateFrameNumbers('asteroidMedium2', {
+        start: 0,
+        end: 19
+      }),
+      frameRate: 20,
+      repeat: -1
+    });
+  }
+  
+  //anim_asteroidLarge1
+  if (!scene.anims.exists('anim_asteroidLarge1')) {
+    scene.anims.create({
+      key: 'anim_asteroidLarge1',
+      frames: scene.anims.generateFrameNumbers('asteroidLarge1', {
+        start: 0,
+        end: 19
+      }),
+      frameRate: 20,
+      repeat: -1
+    });
+  }
+  
+  //anim_asteroidLarge2
+  if (!scene.anims.exists('anim_asteroidLarge2')) {
+    scene.anims.create({
+      key: 'anim_asteroidLarge2',
+      frames: scene.anims.generateFrameNumbers('asteroidLarge2', {
+        start: 0,
+        end: 19
+      }),
+      frameRate: 20,
+      repeat: -1
+    });
+  }
+  
+  
+  /*
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   */
+  
+  
+  
+  if (!scene.anims.exists('anim_explosionLarge1')) {
+    scene.anims.create({
+      key: 'anim_explosionLarge1',
+      frames: scene.anims.generateFrameNumbers('explosionLarge1', {
+        start: 0,
+        end: 11
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+  }
+  
+  
+  
+  
+  /*
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   */
+  
+  if (!scene.anims.exists('anim_sparkBulltEffect')) {
+    scene.anims.create({
+      key: 'anim_sparkBulltEffect',
+      frames: scene.anims.generateFrameNumbers('sparkBulltEffect', {
+        start: 0,
+        end: 19
+      }),
+      frameRate: 60,
+      repeat: 0
+    });
+  }
+  
+  
+  
+  
+  /*
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   */
+  
 }
 
 
 
 
 
-// Membuat animasi untuk thruster
-if (!scene.anims.exists('anim_playerShipThruster')) {
 
-scene.anims.create({
-key: 'anim_playerShipThruster',
-frames: scene.anims.generateFrameNumbers(
-'playerShipThruster_Sprsheet', { start: 0, end: 5 }
-),
-frameRate: 20,
-repeat: -1
-});
 
+//============================
+// FILE : gamePlayScene.js
+//============================
+
+//./Scenes/gamePlayScene.js 
+
+import CollisionManager from '../core/collisionManager.js';
+import Colliders from '../../core/colliders.js';
+import { MapBackground } from "../script/map/mapIndex.js";
+import MenuHangarUI from '../scenes/menuHangarUI.js';
+import Player from "../script/player/mainPlayer.js";
+import AnimGroup from '../script/animations/animGroup.js';
+import ExplosionPool from "../script/effects/explosionPools.js";
+import AsteroidSpawner from "../script/obstacles/asteroidSpawner.js";
+import ItemPool from "../script/items/itemPool.js";
+
+export default class GamePlayScene extends Phaser.Scene {
+  constructor() {
+    super("gamePlayScene");
+  }
+  
+  addScore(amount) {
+    this.score += amount;
+    this.scoreText.setText(this.score);
+  }
+  
+  create() {
+    
+    this.gameW = this.scale.width;
+    this.gameH = this.scale.height;
+    this.ShowStatus = false;
+    // MapBackground create
+    this.MapBg = new MapBackground(this, 960);
+    
+    this.MUSvolume = 1;
+    this.SFXvolume = 0.8;
+    this.SystemRate = 1.25;
+    this.weaponsLevel = 1;
+    
+    this.scoreText = this.add.text(20, 60, this.score, {
+      fontSize: "20px",
+      fill: "#ffffff"
+    }).setDepth(10);
+    
+    this.textShowStatus = this.add.text(10, 80, "", {
+      fontSize: "24px",
+      fill: "#ffffff"
+    }).setDepth(9);
+    
+    
+    // difficulty system
+    this.difficultyLevel = 1;
+    this.difficultyTimer = 0;
+    
+    //create animation 
+    new AnimGroup(this);
+
+    // GROUP GLOBAL
+    this.allObjects = this.physics.add.group();
+    
+    // collision manager
+    this.Collider = Colliders;
+    this.collisionManager = new CollisionManager(this);
+    
+    // overlap GLOBAL
+    this.physics.add.overlap(
+      this.allObjects,
+      this.allObjects,
+      (a, b) => {
+        this.collisionManager.handleCollision(a, b);
+      }
+    );
+    
+    
+    //create effects
+    this.explosionPool = new ExplosionPool(this);
+    
+    //create item pool
+    this.itemPool = new ItemPool(this);
+    
+    //obstacle asteroid create
+    this.asteroidSpawner = new AsteroidSpawner(this);
+    
+    //Player create
+    this.Player = new Player(this, this.gameW / 2, this.gameH / 1.1);
+    
+    //player atribut
+    this.score = 0;
+    this.playerHP = 5;
+    this.maxHP = 5;
+    this.hpIcons = [];
+    
+    // ambil group object
+    this.burstBullet = this.Player.weaponCreate.list.burstBulletCreate.burstBulletGroup;
+    this.asteroids = this.asteroidSpawner.asteroidGroup;
+    this.items = this.itemPool.group;
+        //Hangar Gameplay
+    new MenuHangarUI(this)
+    this.gameState = "hangar";
+    
+    for (let i = 0; i < this.maxHP; i++) {
+      
+      let icon = this.add.image(40 + i * 35, 30, 'healthUp')
+        .setScale(0.3)
+        .setDepth(10);
+      this.hpIcons.push(icon);
+      
+    }
+    
+    this.updateHP();
+    this.playerInvincible = false;
+    
+    
+    
+    
+    
+    
+  } //create()
+  
+  
+  
+  updateHP() {
+    
+    for (let i = 0; i < this.maxHP; i++) {
+      
+      if (i < this.playerHP) {
+        this.hpIcons[i].setTexture('healthUp');
+      } else {
+        this.hpIcons[i].setTexture('healthOff');
+      }
+      
+    }
+    
+  }
+  
+  
+  
+  gameOver() {
+    
+    //Screen Flash
+    let flash = this.add.rectangle(
+        0, 0,
+        this.scale.width,
+        this.scale.height,
+        0xffffff
+      )
+      .setOrigin(0)
+      .setAlpha(0.8)
+      .setDepth(100);
+    
+    this.tweens.add({
+      targets: flash,
+      alpha: 0,
+      duration: 300,
+      onComplete: () => flash.destroy()
+    });
+    
+    
+    this.cameras.main.shake(500, 0.02);
+    
+    this.physics.pause();
+    
+    // text GAME OVER
+    this.add.text(
+      this.scale.width / 2,
+      this.scale.height / 2 - 80,
+      "GAME OVER",
+      {
+        fontSize: "64px",
+        fill: "#ff0000"
+      }
+    ).setOrigin(0.5);
+    
+    // text restart
+    this.add.text(
+      this.scale.width / 2,
+      this.scale.height / 2 + 40,
+      "Tap to Restart",
+      {
+        fontSize: "32px",
+        fill: "#ffffff"
+      }
+    ).setOrigin(0.5);
+    
+    //text show now score 
+    this.add.text(
+      this.scale.width / 2,
+      this.scale.height / 2 - 10,
+      "Score : " + this.score,
+      {
+        fontSize: "32px",
+        fill: "#ffffff"
+      }
+    ).setOrigin(0.5);
+    
+    
+    // restart game saat layar disentuh
+    this.input.once("pointerdown", () => {
+      
+      this.scene.restart();
+      
+    });
+    
+  }
+  
+  
+  update(time, delta) {
+    
+    //=======================================================================================================================================================================================================
+    // MapBackground update
+    this.MapBg.update(time, delta);
+    //=======================================================================================================================================================================================================
+    
+    if (this.gameState !== "gameplay") return;
+    
+    //this.asteroidSpawner.update(time);
+    
+    // update Level. (difficulty)
+    this.difficultyTimer++ * delta;
+    
+    let spawner = this.asteroidSpawner;
+    
+    if (this.difficultyTimer > 1000) { // 10 detik
+      
+      this.difficultyTimer = 0;
+      
+      spawner.difficultyLevel++;
+      
+      // spawn lebih cepat
+      spawner.spawnRate = Math.max(
+        100,
+        spawner.spawnRate - 20
+      );
+      
+      // jumlah asteroid maksimum
+      spawner.maxAsteroidsInGame = Math.min(
+        20,
+        spawner.maxAsteroidsInGame + 0.5
+      );
+      
+      // asteroid lebih cepat
+      spawner.speedMultiplier = Math.min(
+        4,
+        spawner.speedMultiplier + 0.2
+      );
+      
+      // spawn lebih banyak asteroid
+      if (spawner.difficultyLevel % 5 === 0) {
+        
+        spawner.maxAsteroidsPerSpawn = Math.min(
+          3,
+          spawner.maxAsteroidsPerSpawn + 0.5
+        );
+        
+      }
+    }
+    
+    
+    if (this.ShowStatus) {
+      this.textShowStatus.setText(
+        `
+Status Game
+difficultyTimer : ${this.difficultyTimer}
+      
+difficultyLevel : ${spawner.difficultyLevel}
+      
+spawnRate : ${ spawner.spawnRate}
+      
+maxAsteroidsInGame : ${ spawner.maxAsteroidsInGame}
+      
+speedMultiplier : ${ spawner.speedMultiplier}
+      
+maxAsteroidsPerSpawn : ${spawner.maxAsteroidsPerSpawn}
+
+jumlah asteroid di layar : ${this.asteroids.countActive()}
+
+weaponsLevel : ${this.weaponsLevel}
+
+bulletLevel : ${this.Player.weaponCreate.list.burstBulletCreate.brustBulletLevel}
+
+`
+      )
+    }
+    
+    
+    
+    //=======================================================================================================================================================================================================
+    //obstacle asteroid create
+    this.asteroidSpawner.update(time);
+    //=======================================================================================================================================================================================================
+    
+    //update player
+    this.Player.update(time, delta)
+    
+    //=======================================================================================================================================================================================================
+    //=======================================================================================================================================================================================================
+    
+    
+    // shield timer
+    if (this.Player.shieldActive) {
+      
+      if (this.time.now - this.Player.shieldTimer > this.Player.shieldDuration) {
+        
+        this.Player.shieldActive = false;
+        
+        this.Player.shieldSprite.setVisible(false);
+        
+      }
+      
+    }
+    
+    
+  }
 }
 
 
 
 
-// efek muzzle flash
-if (!scene.anims.exists('anim_playerBulletEmit')) {
-scene.anims.create({
-key: 'anim_playerBulletEmit',
-frames: scene.anims.generateFrameNumbers('playerBulletEmit_Sprsheet',
-{
-start: 0,
-end: 3
-}),
-frameRate: 70,
-repeat: 0,
-});
-}
-
-// animasi peluru
-if (!scene.anims.exists('anim_playerBullet')) {
-scene.anims.create({
-key: 'anim_playerBullet',
-frames: scene.anims.generateFrameNumbers('playerBullet_Sprsheet',
-{
-start: 0,
-end: 4
-}),
-frameRate: 50,
-repeat: -1,
-});
-}
 
 
 
-/*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*/
+//============================
+// FILE : menuHangarUI.js
+//============================
 
+export default class MenuHangarUI {
+  
+  constructor(scene) {
+    this.scene = scene
+    this.scene.add.existing(this);
+    const scaleR = this.scene.gameW / 1024;
+    this.scene.runway = this.scene.add.image(
+        this.scene.gameW / 2,
+        this.scene.gameH / 1.08,
+        'runwayMenuObject')
+      .setDepth(2)
+      .setScale(scaleR);
+    
+    //sembunyikan thruster
+    this.scene.Player.thrusterVisible(false);
 
+    this.scene.TapToPlay = this.scene.add.text(
+      this.scene.gameW / 2,
+      this.scene.gameH / 2,
+      'Tap To Play',
+      {
+        fontSize: '32px',
+        color: '#ffffff'
+      }
+    ).setOrigin(0.5).setInteractive();
+    
+    
+    this.scene.TapToPlay.on("pointerdown", () => {
+      
+      this.startLaunch();
+      
+      
+    });
+  }
+  
+  startLaunch() {
+    
+    this.scene.gameState = "launch";
+    
+    this.scene.TapToPlay.setVisible(false);
+    this.scene.Player.thrusterVisible(true);
 
+    
+        this.scene.tweens.add({
+          targets: this.scene.Player.objek.ShipBox,
+          y: this.scene.gameH / 1.5,
+          duration: 2000,
+          ease: "power0",
+          onComplete: () => {
+            //tampilkan thruster
+            this.scene.time.delayedCall(1000, () => {
+              this.startGameplay();
+            });
+            
+          }
+        });
+        
+        this.scene.tweens.add({
+          targets: this.scene.runway,
+          y: this.scene.gameH + 200,
+          duration: 2000,
+          ease: "power0",
+          onComplete: () => {
+            this.scene.runway.setVisible(true)
+          
+        }
+    });
+  }
+  
+  
+  startGameplay() {
 
-//anim_asteroidSmall1
-if (!scene.anims.exists('anim_asteroidSmall1')) {
-scene.anims.create({
-key: 'anim_asteroidSmall1',
-frames: scene.anims.generateFrameNumbers('asteroidSmall1', {
-start: 0,
-end: 19
-}),
-frameRate: 20,
-repeat: -1
-});
-}
-
-
-
-
-//anim_asteroidSmall2
-if (!scene.anims.exists('anim_asteroidSmall2')) {
-scene.anims.create({
-key: 'anim_asteroidSmall2',
-frames: scene.anims.generateFrameNumbers('asteroidSmall2', {
-start: 0,
-end: 19
-}),
-frameRate: 20,
-repeat: -1
-});
-}
-
-//anim_asteroidMedium1
-if (!scene.anims.exists('anim_asteroidMedium1')) {
-scene.anims.create({
-key: 'anim_asteroidMedium1',
-frames: scene.anims.generateFrameNumbers('asteroidMedium1', {
-start: 0,
-end: 19
-}),
-frameRate: 20,
-repeat: -1
-});
-}
-
-//anim_asteroidMedium2
-if (!scene.anims.exists('anim_asteroidMedium2')) {
-scene.anims.create({
-key: 'anim_asteroidMedium2',
-frames: scene.anims.generateFrameNumbers('asteroidMedium2', {
-start: 0,
-end: 19
-}),
-frameRate: 20,
-repeat: -1
-});
-}
-
-//anim_asteroidLarge1
-if (!scene.anims.exists('anim_asteroidLarge1')) {
-scene.anims.create({
-key: 'anim_asteroidLarge1',
-frames: scene.anims.generateFrameNumbers('asteroidLarge1', {
-start: 0,
-end: 19
-}),
-frameRate: 20,
-repeat: -1
-});
-}
-
-//anim_asteroidLarge2
-if (!scene.anims.exists('anim_asteroidLarge2')) {
-scene.anims.create({
-key: 'anim_asteroidLarge2',
-frames: scene.anims.generateFrameNumbers('asteroidLarge2', {
-start: 0,
-end: 19
-}),
-frameRate: 20,
-repeat: -1
-});
-}
-
-
-/*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*/
-
-
-
-if (!scene.anims.exists('anim_explosionLarge1')) {
-scene.anims.create({
-key: 'anim_explosionLarge1',
-frames: scene.anims.generateFrameNumbers('explosionLarge1', {
-start: 0,
-end: 11
-}),
-frameRate: 20,
-repeat: 0
-});
+    this.scene.gameState = "gameplay";
+    
+    //this.asteroidSpawner.start();
+    
+  }
+  
 }
 
 
 
 
-/*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*/
 
-if (!scene.anims.exists('anim_sparkBulltEffect')) {
-scene.anims.create({
-key: 'anim_sparkBulltEffect',
-frames: scene.anims.generateFrameNumbers('sparkBulltEffect', {
-start: 0,
-end: 19
-}),
-frameRate: 60,
-repeat: 0
-});
+
+
+//============================
+// FILE : explosion.js
+//============================
+
+//../script/effects/explosion.js 
+
+export default class Explosion extends Phaser.GameObjects.Sprite {
+  
+  constructor(scene, x, y) {
+    super(scene, x, y, 'explosionLarge1');
+    
+    scene.add.existing(this);
+    
+    this.setActive(false);
+    this.setVisible(false); 
+    
+  }
+  
+  playExplosion(x, y) {
+    
+    this.setPosition(x, y);
+    
+    this.setActive(true);
+    this.setVisible(true);
+    
+    this.setScale(0.5);
+    
+    this.play('anim_explosionLarge1');
+    
+    this.once('animationcomplete', () => {
+      
+      this.setActive(false);
+      this.setVisible(false);
+      
+    });
+    
+  }
+  
 }
 
 
 
 
-/*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*/
 
+
+
+//============================
+// FILE : preloadScene.js
+//============================
+
+// ./core/preloadScene.js
+
+export default class PreloadScene extends Phaser.Scene {
+  constructor() {
+    super("preloadScene");
+  }
+  
+  preload() {
+    
+    const scaleR = this.scale.height / 960;
+    this.add.image(
+      this.scale.width / 2,
+      this.scale.height / 2,
+      'background0'
+    ).setScale(scaleR);
+    
+    const r = (this.scale.width / 512) / 4
+    
+    this.add.image(
+      this.scale.width / 2,
+      this.scale.height / 4,
+      'icon'
+    ).setScale(r)
+    
+    
+    //========================================================================================================
+    //========================================================================================================
+    //Art load start
+    //========================================================================================================
+    //========================================================================================================
+    
+    
+    
+    //========================================================================================================
+    //img load star
+    //========================================================================================================
+    
+    // Memuat gambar kapal pemain level 1
+    this.load.image('playerShipLevel1', 'assets/art/image/player/playerShipLevel1/playerShipLevel1.png');
+    // Memuat gambar kapal miring
+    this.load.image('playerShipLevel1Tilt', 'assets/art/image/player/playerShipLevel1/playerShipLevel1Tilt.png');
+    
+    // load img runway Menu Object
+    this.load.image('runwayMenuObject', 'assets/art/image/menuObject/runway.png');
+    
+    
+    
+    
+    //(load item) Weapon upgrade
+    this.load.image('weaponUp', 'assets/art/image/item/weaponUp.png');
+    
+    //(load item) HealthUp
+    this.load.image('healthUp', 'assets/art/image/item/healthUp.png');
+    
+    //(load item) HealthOff
+    this.load.image('healthOff', 'assets/art/image/ui/healthOff.png');
+    
+    
+    //(load img wapon)
+    this.load.image('bullet1_blue', 'assets/art/image/player/projectiles/bullet/spr_bullet1_blue.png');
+    this.load.image('bullet1_green', 'assets/art/image/player/projectiles/bullet/spr_bullet1_green.png');
+    this.load.image('bullet1_yellow', 'assets/art/image/player/projectiles/bullet/spr_bullet1_yellow.png');
+    this.load.image('bullet2_blue', 'assets/art/image/player/projectiles/bullet/spr_bullet2_blue.png');
+    this.load.image('bullet2_green', 'assets/art/image/player/projectiles/bullet/spr_bullet2_green.png');
+    this.load.image('bullet2_yellow', 'assets/art/image/player/projectiles/bullet/spr_bullet2_yellow.png');
+    
+    //========================================================================================================
+    //img load end
+    //========================================================================================================
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //=======================================================================================
+    //load spritesheet start
+    //=======================================================================================
+    
+    
+    //========================================================================================================
+    //load spritesheet (player atribut/weapon) star
+    
+    //(load item) Shield
+    this.load.spritesheet('playerShield', 'assets/art/spritesheet/player/attribute/shield_Player_sprsheet.png', {
+      frameWidth: 128,
+      frameHeight: 128
+    });
+    
+    
+    //(player atribut) PlayerShipThruster spritesheet untuk thruster Player
+    this.load.spritesheet('playerShipThruster_Sprsheet', 'assets/art/spritesheet/player/attribute/playerShipThruster_Sprsheet.png', {
+      frameWidth: 188,
+      frameHeight: 319
+    });
+    
+    
+    
+    
+    //(player wapon) basic bullet blue muzzle
+    this.load.spritesheet('MuzzleBlueBasicBullet', 'assets/art/spritesheet/player/weapons/projectiles/bullet/MuzzleBlueBasicBullet.png', {
+      frameWidth: 128,
+      frameHeight: 128
+    });
+    
+    //(player wapon) basic bullet green muzzle 
+    this.load.spritesheet('MuzzleGreenBasicBullet', 'assets/art/spritesheet/player/weapons/projectiles/bullet/MuzzleGreenBasicBullet.png', {
+      frameWidth: 128,
+      frameHeight: 128
+    });
+    
+    //(player wapon) basic bullet yellow muzzle 
+    this.load.spritesheet('MuzzleYellowBasicBullet', 'assets/art/spritesheet/player/weapons/projectiles/bullet/MuzzleYellowBasicBullet.png', {
+      frameWidth: 128,
+      frameHeight: 128
+    });
+    
+    
+    
+    
+    
+    //(player weapon) spritesheet untuk animasi emisi peluru
+    this.load.spritesheet('burstBulletMuzzle_Sprsheet', 'assets/art/spritesheet/player/weapons/projectiles/burstBullet/burstBulletMuzzle_sprsheet.png', {
+      frameWidth: 337,
+      frameHeight: 308
+    });
+    
+    //(player weapon) bullet spritesheet animasi
+    this.load.spritesheet('burstBullet_Sprsheet', 'assets/art/spritesheet/player/weapons/projectiles/burstBullet/burstBullet_sprsheet.png', {
+      frameWidth: 274,
+      frameHeight: 343
+    });
+    
+    //(player weapon) HeavyMissile spritesheet (WxH Belum diatur)
+    this.load.spritesheet('peavyMissile_Sprsheet', 'assets/art/spritesheet/player/weapons/projectile/heavyMissile/heavyMissile_sprsheet.png', {
+      frameWidth: 274,
+      frameHeight: 343
+    });
+    
+    //(player weapon) Missile spritesheet (WxH Belum diatur)
+    this.load.spritesheet('missile_Sprsheet', 'assets/art/spritesheet/player/weapons/projectile/missile/missile_sprsheet.png', {
+      frameWidth: 274,
+      frameHeight: 343
+    });
+    
+    //(player weapon) leser_blue_sprsheet spritesheet (WxH Belum diatur)
+    this.load.spritesheet('leserBlue_sprsheet', 'assets/art/spritesheet/player/weapons/leser/leser_blue_sprsheet.png', {
+      frameWidth: 85.33,
+      frameHeight: 256
+    });
+    
+    //(player weapon) leser_blue_sprsheet spritesheet (WxH Belum diatur)
+    this.load.spritesheet('leser_green_sprsheet', 'assets/art/spritesheet/player/weapons/leser/leser_green_sprsheet.png', {
+      frameWidth: 274,
+      frameHeight: 343
+    });
+    
+    //(player weapon) leser_blue_sprsheet spritesheet (WxH Belum diatur)
+    this.load.spritesheet('leser_yellow_sprsheet', 'assets/art/spritesheet/player/weapons/leser/leser_yellow_sprsheet.png', {
+      frameWidth: 274,
+      frameHeight: 343
+    });
+    
+    
+    //load spritesheet (player atribut) end 
+    //=======================================================================================
+    
+    
+    
+    
+    
+    //=======================================================================================
+    //load spritesheet effects explosion start 
+    
+    //effects explosion explosionLarge1 (WxH Belum diatur)
+    this.load.spritesheet(
+      'explosionLarge1',
+      'assets/art/spritesheet/effects/explosion/explosion_large1_sprsheet.png',
+      {
+        frameWidth: 256,
+        frameHeight: 227
+      }
+    );
+    
+    //effects explosion explosionLarge1 (WxH Belum diatur)
+    this.load.spritesheet(
+      'explosionLarge2',
+      'assets/art/spritesheet/effects/explosion/explosion_large2_sprsheet.png',
+      {
+        frameWidth: 256,
+        frameHeight: 227
+      }
+    );
+    
+    
+    //effects explosion explosionLarge2 (WxH Belum diatur)
+    this.load.spritesheet(
+      'explosionGreenlarge',
+      'assets/art/spritesheet/effects/explosion/explosion_green_large_sprsheet.png',
+      {
+        frameWidth: 256,
+        frameHeight: 256
+      }
+    );
+    
+    //effects explosion explosionLarge2 (WxH Belum diatur)
+    this.load.spritesheet(
+      'sparkBulltEffect',
+      'assets/art/spritesheet/effects/explosion/sparkBulltEffect_sprsheet.png',
+      {
+        frameWidth: 204,
+        frameHeight: 204
+      }
+    );
+    
+    
+    
+    //load spritesheet effects explosion end
+    //=======================================================================================
+    
+    
+    
+    
+    //=======================================================================================
+    //load spritesheet (obstacle asteroid) start
+    
+    
+    //load spritesheet asteroids_small1_rock (obstacle asteroid)
+    this.load.spritesheet(
+      'asteroidSmall1',
+      'assets/art/spritesheet/obstacle/asteroids/asteroids_small1_rock_sprsheet.png',
+      {
+        frameWidth: 314,
+        frameHeight: 314
+      }
+    );
+    
+    //load spritesheet asteroids_small2_rock (obstacle asteroid)
+    this.load.spritesheet(
+      'asteroidSmall2',
+      'assets/art/spritesheet/obstacle/asteroids/asteroids_small2_rock_sprsheet.png',
+      {
+        frameWidth: 314,
+        frameHeight: 314
+      }
+    );
+    
+    //load spritesheet asteroids_medium1_rock_sprsheet (obstacle asteroid)
+    this.load.spritesheet(
+      'asteroidMedium1',
+      'assets/art/spritesheet/obstacle/asteroids/asteroids_medium1_rock_sprsheet.png',
+      {
+        frameWidth: 314,
+        frameHeight: 314
+      }
+    );
+    
+    //load spritesheet asteroids_medium2_rock_sprsheet (obstacle asteroid)
+    this.load.spritesheet(
+      'asteroidMedium2',
+      'assets/art/spritesheet/obstacle/asteroids/asteroids_medium2_rock_sprsheet.png',
+      {
+        frameWidth: 314,
+        frameHeight: 314
+      }
+    );
+    
+    //load spritesheet asteroids_large1_rock_sprsheet (obstacle asteroid)
+    this.load.spritesheet(
+      'asteroidLarge1',
+      'assets/art/spritesheet/obstacle/asteroids/asteroids_large1_rock_sprsheet.png',
+      {
+        frameWidth: 318,
+        frameHeight: 318
+      }
+    );
+    
+    //load spritesheet asteroids_large2_rock_sprsheet (obstacle asteroid)
+    this.load.spritesheet(
+      'asteroidLarge2',
+      'assets/art/spritesheet/obstacle/asteroids/asteroids_large2_rock_sprsheet.png',
+      {
+        frameWidth: 314,
+        frameHeight: 314
+      }
+    );
+    
+    //load spritesheet obstacle (asteroid) end
+    //=======================================================================================
+    
+    
+    
+    
+    //=======================================================================================
+    //load spritesheet end
+    //=======================================================================================
+    
+    
+    
+    
+    
+    
+    
+    
+    //========================================================================================================
+    //========================================================================================================
+    //Art load end
+    //========================================================================================================
+    //========================================================================================================
+    
+    
+    
+    
+    
+    
+    
+    
+    //audio load BulletSound sfx_PlayerShip_BulletFire1
+    this.load.audio('sfxBulletFire1', 'assets/audio/sfx/sfxBulletFire1.wav');
+    
+    //audio load
+    this.load.audio('sfxAsteroidExplosion', 'assets/audio/sfx/sfxExplosion.mp3');
+    //================================================
+    //audio load Backsound
+    this.load.audio('backSound0', 'assets/audio/sound/backsound0.ogg');
+    
+    //================================================
+    
+    
+    
+    
+    // Background loading
+    this.cameras.main.setBackgroundColor("#1a1a1a");
+    
+    // Progress bar graphic
+    let progressBox = this.add.graphics();
+    let progressBar = this.add.graphics();
+    
+    //text credit
+        let credit = this.add.text(
+      10,
+      this.scale.height / 1.05,
+`
+Assets sourced from GameMaker Asset Bundles
+Licensed under Apache License 2.0
+`,
+      {
+        font: "12px Arial",
+        fill: "#7B7B7B"
+      });
+      
+    // Text persen
+    let percentText = this.add.text(
+      this.scale.width / 2,
+      this.scale.height / 2.3,
+      "0%",
+      {
+        font: "18px Arial",
+        fill: "#ffffff"
+      }).setOrigin(0.5);
+    
+    // Text asset yang sedang dimuat
+    let assetText = this.add.text(
+      this.scale.width / 2,
+      this.scale.height / 2.4, "", {
+        font: "16px Arial",
+        fill: "#ffffff"
+      }).setOrigin(0.5);
+    
+    
+    // Kotak luar (background bar)
+    progressBox.fillStyle(0x222222, 0.8);
+    progressBox.fillRect(0, this.scale.height / 2.5, this.scale.width, 5);
+    
+    
+    // Event progress (0–1)
+    this.load.on("progress", (value) => {
+      progressBar.clear();
+      progressBar.fillStyle(0xffffff, 1);
+      progressBar.fillRect(0, this.scale.height / 2.5, this.scale.width * value, 5);
+      percentText.setText(parseInt(value * 100) + "%");
+    });
+    
+    // Event file progress
+    this.load.on("fileprogress", (file) => {
+      assetText.setText("Loading: " + file.key);
+    });
+    
+    // Event complete
+    this.load.on("complete", () => {
+      progressBar.destroy();
+      progressBox.destroy();
+      percentText.destroy();
+      assetText.destroy();
+      
+      // Setelah selesai → ke MainMenuScene (atau langsung GameplayScene)
+      this.scene.start("gamePlayScene");
+    });
+    
+    
+    
+  }
+  
+  
 }
+
+
+
+
+
+
+
+//============================
+// FILE : fullScreenBtnScene.js
+//============================
+
+// ./core/fullScreenBtnScene.js
+export default class FullScreenBtnScene extends Phaser.Scene {
+  constructor() {
+    super({ key: 'fullScreenBtnScene', active: true }); // <- aktif langsung
+  }
+  preload()
+  {
+    //UI image fullscreenOff
+    this.load.image('fullscreenOn', 'assets/image/ui/fullscreenOn.png');
+    this.load.image('fullscreenOff', 'assets/image/ui/fullscreenOff.png');
+    
+  }
+  create() {
+    const fsButton = this.add.image(this.scale.width - 20, 20, 'fullscreenOn')
+      .setOrigin(1, 0)
+      .setInteractive()
+      .setScrollFactor(0)
+      .setScale(0.1)
+      .setDepth(99);
+    
+    fsButton.on('pointerup', () => {
+      if (this.scale.isFullscreen) {
+        this.scale.stopFullscreen();
+        fsButton.setTexture('fullscreenOn');
+      } else {
+        this.scale.startFullscreen();
+        fsButton.setTexture('fullscreenOff');
+      }
+    });
+  }
+}
+
+
+
+
+
+
+
+//============================
+// FILE : collisionManager.js
+//============================
+
+//./core/collisionManager.js
+export default class CollisionManager {
+  constructor(scene) {
+    this.scene = scene;
+    
+    this.rules = {
+      "projectiles:enemy": (a, b) => this.hitEnemy(a, b),
+      "player:enemy": (a, b) => this.hitPlayer(a, b),
+      "player:item": (a, b) => this.collectItem(a, b),
+    };
+  }
+  
+  handleCollision(a, b) {
+    if (!a.tag || !b.tag) return;
+    
+    const key1 = `${a.tag}:${b.tag}`;
+    const key2 = `${b.tag}:${a.tag}`;
+    
+    if (this.rules[key1]) {
+      this.rules[key1](a, b);
+    } else if (this.rules[key2]) {
+      this.rules[key2](b, a);
+    }
+    
+    
+  }
+  
+  // =============================
+  // MASUKKAN FUNCTION KAMU DI SINI
+  // =============================
+  
+  hitEnemy(projectiles, enemys) {
+  if (!projectiles.active || !enemys.active) return;
+
+  // damage universal
+  projectiles.onHit(enemys);
+
+  switch (projectiles.type) {
+    case "basicBullet":
+      // effects....
+      break;
+
+    case "burstBullet":
+      projectiles.burstBulletEffect(enemys);
+      break;
+
+    case "missile":
+      this.explosionEffect(projectiles);
+      break;
+
+    case "laser":
+      this.laserEffect(projectiles, enemys);
+      break;
+  }
+}
+  
+  
+  hitPlayer(player, asteroid) {
+    const scene = this.scene;
+    
+    if (!asteroid.active) return;
+    
+    if (scene.Player.shieldActive) return;
+    if (scene.playerInvincible) return;
+    
+    scene.playerInvincible = true;
+    
+    let ship = scene.Player.objek.Ship;
+    
+    scene.tweens.add({
+      targets: ship,
+      alpha: 0.3,
+      yoyo: true,
+      repeat: 5,
+      duration: 100,
+      onComplete: () => {
+        ship.alpha = 1;
+      }
+    });
+    
+    asteroid.setActive(false);
+    asteroid.setVisible(false);
+    asteroid.body.stop();
+    
+    
+    scene.explosionPool.play(asteroid.x, asteroid.y);
+    
+    scene.sound.play("sfxAsteroidExplosion", {
+      volume: scene.SFXvolume,
+      rate: scene.SystemRate
+    });
+    
+    scene.cameras.main.shake(200, 0.01);
+    
+    scene.playerHP--;
+    scene.updateHP();
+    
+    let shipBox = scene.Player.objek.ShipBox;
+    
+    if (scene.playerHP <= 0) {
+      
+      scene.gameOver();
+      // explosion player gameOver
+      scene.sound.play("sfxAsteroidExplosion", {
+        volume: this.SFXvolume,
+        rate: this.SystemRate
+      });
+      
+      scene.explosionPool.play(shipBox.x, shipBox.y);
+      
+      //Hilangkan Objek Player
+      shipBox.setActive(false).setVisible(false);
+      shipBox.body.stop();
+      
+      //Hilangkan Objek Asteroid
+      asteroid.setActive(false).setVisible(false);
+      asteroid.body.stop();
+      
+      
+    }
+    
+    scene.time.delayedCall(1000, () => {
+      scene.playerInvincible = false;
+    });
+  }
+  
+  collectItem(player, item) {
+    const scene = this.scene;
+    
+    if (!item.active) return;
+    
+    switch (item.itemType) {
+      case "healthUp":
+        if (scene.playerHP < scene.maxHP) {
+          scene.playerHP++;
+          scene.updateHP();
+        }
+        break;
+        
+      case "weaponUp":
+        
+        this.scene.weaponsLevel++;
+        break;
+        
+      case "playerShield":
+        scene.Player.shieldActive = true;
+        scene.Player.shieldTimer = scene.time.now;
+        scene.Player.shieldSprite.setVisible(true);
+        break;
+    }
+    
+    this.destroyItem(item);
+  }
+  
+  destroyItem(item) {
+    item.setActive(false);
+    item.setVisible(false);
+    item.body.stop();
+  }
+}
+
+
+
+
+
+
+
+//============================
+// FILE : colliders.js
+//============================
+
+//./core/colliders.js
+
+export default class Colliders {
+    /**
+     * Set collider kotak (rectangle) secara otomatis
+     * @param {Phaser.Physics.Arcade.Sprite} sprite - objek sprite / physics body
+     * @param {number} widthFactor - 0..1, skala lebar collider relatif displayWidth
+     * @param {number} heightFactor - 0..1, skala tinggi collider relatif displayHeight
+     */
+    static setCollKotak(sprite, widthFactor = 1, heightFactor = 1) {
+        if (!sprite.body) return;
+        
+        const colliderWidth = sprite.displayWidth * widthFactor;
+        const colliderHeight = sprite.displayHeight * heightFactor;
+        
+        sprite.body.setSize(colliderWidth, colliderHeight);
+        sprite.body.setOffset(
+            (sprite.displayWidth - colliderWidth) / 2,
+            (sprite.displayHeight - colliderHeight) / 2
+        );
+    }
+    
+    /**
+     * Set collider lingkaran (circle) secara otomatis
+     * @param {Phaser.Physics.Arcade.Sprite} sprite - objek sprite / physics body
+     * @param {number} radiusFactor - 0..1, radius relatif displayWidth
+     */
+    static setCollBulat(sprite, radiusFactor = 0.5) {
+        if (!sprite.body) return;
+        
+        const radius = sprite.displayWidth * radiusFactor;
+        sprite.body.setCircle(radius);
+        sprite.body.setOffset(
+            (sprite.displayWidth - radius * 2) / 2,
+            (sprite.displayHeight - radius * 2) / 2
+        );
+    }
+    
+    static setCollConBulat(container, radius) {
+        let rad = radius * 10;
+        if (container.type === "Container") {
+            container.body.setCircle(rad);
+            container.body.setOffset(-rad, -rad);
+        }
+        else if (container.isBody) {
+            container.setCircle(rad);
+            container.setOffset(-rad, -rad);
+        }
+        
+    }
+    /**
+     * Optional: set collider otomatis sesuai bentuk
+     * 'circle' atau 'rectangle'
+     */
+    static setAuto(sprite, shape = 'Kotak', widthFactor = 1, heightFactor = 1, radiusFactor = 0.5) {
+        if (shape === 'Kotak') {
+            this.setRectangle(sprite, widthFactor, heightFactor);
+        } else if (shape === 'Bulat') {
+            this.setCircle(sprite, radiusFactor);
+        }
+    }
+}
+
+
+
+
+
+
+
+//============================
+// FILE : bootScene.js
+//============================
+
+// ./core/bootScene.js
+
+
+export default class BootScene extends Phaser.Scene {
+  constructor() {
+    super("bootScene");
+  }
+  preload() {
+    //Background image load/
+    this.load.image('background0', 'assets/art/image/background/Background1.png');
+    
+    this.load.image('icon', 'icons/icon.png');
+
+  }
+
+  create() {
+    
+    this.scale.scaleMode = Phaser.Scale.FIT;
+    this.scale.pageAlignHorizontally = true;
+    this.scale.pageAlignVertically = true;
+   
+    // Setelah siap, langsung ke Preload
+    this.scene.start("preloadScene");
+  }
+}
+
+
+
+
+
+
+

@@ -59,10 +59,10 @@ export default class PreloadScene extends Phaser.Scene {
     //(load img wapon)
     this.load.image('bullet1_blue', 'assets/art/image/player/projectiles/bullet/spr_bullet1_blue.png');
     this.load.image('bullet1_green', 'assets/art/image/player/projectiles/bullet/spr_bullet1_green.png');
-    this.load.image('bullet1_yellow', '/assets/art/image/player/projectiles/bullet/spr_bullet1_yellow.png');
-    this.load.image('bullet2_blue', '/assets/art/image/player/projectiles/bullet/spr_bullet2_blue.png');
-    this.load.image('bullet2_green', '/assets/art/image/player/projectiles/bullet/spr_bullet2_green.png');
-    this.load.image('bullet2_yellow', '/assets/art/image/player/projectiles/bullet/spr_bullet2_yellow.png');
+    this.load.image('bullet1_yellow', 'assets/art/image/player/projectiles/bullet/spr_bullet1_yellow.png');
+    this.load.image('bullet2_blue', 'assets/art/image/player/projectiles/bullet/spr_bullet2_blue.png');
+    this.load.image('bullet2_green', 'assets/art/image/player/projectiles/bullet/spr_bullet2_green.png');
+    this.load.image('bullet2_yellow', 'assets/art/image/player/projectiles/bullet/spr_bullet2_yellow.png');
     
     //========================================================================================================
     //img load end

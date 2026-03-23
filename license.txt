@@ -1,2 +1,0 @@
-Assets sourced from GameMaker Asset Bundles
-Licensed under Apache License 2.0
