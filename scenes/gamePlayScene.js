@@ -1,7 +1,7 @@
-//./Scenes/gamePlayScene.js 
+//./scenes/gamePlayScene.js 
 
 import CollisionManager from '../core/collisionManager.js';
-import Colliders from '../../core/colliders.js';
+import Colliders from '../core/colliders.js';
 import { MapBackground } from "../script/map/mapIndex.js";
 import MenuHangarUI from '../scenes/menuHangarUI.js';
 import Player from "../script/player/mainPlayer.js";
@@ -25,7 +25,7 @@ export default class GamePlayScene extends Phaser.Scene {
     
     this.gameW = this.scale.width;
     this.gameH = this.scale.height;
-    this.ShowStatus = true;
+    this.ShowStatus = false;
     // MapBackground create
     this.MapBg = new MapBackground(this, 960);
     
@@ -33,7 +33,7 @@ export default class GamePlayScene extends Phaser.Scene {
     this.SFXvolume = 0.8;
     this.SystemRate = 1.25;
     this.weaponsLevel = 1;
-    
+    this.score = 0;
     this.scoreText = this.add.text(20, 60, this.score, {
       fontSize: "20px",
       fill: "#ffffff"
@@ -83,7 +83,6 @@ export default class GamePlayScene extends Phaser.Scene {
     
     this.playerBox = this.Player.objek.ShipBox;
     //player atribut
-    this.score = 0;
     this.playerHP = 5;
     this.maxHP = 5;
     this.hpIcons = [];

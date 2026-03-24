@@ -3,7 +3,7 @@ console.log("MAIN JS ✓");
 import BootScene from './core/bootScene.js';
 import FullScreenBtnScene from './core/fullScreenBtnScene.js';
 import PreloadScene from './core/preloadScene.js';
-//import GamePlayScene from './scenes/gamePlayScene.js';
+import GamePlayScene from './scenes/gamePlayScene.js';
 
 const isMobile = window.innerWidth <= 640;
 const config = {
@@ -15,13 +15,13 @@ const config = {
       default: 'arcade',
       arcade: {
          gravity: { y: 0 },
-         debug: false
+         debug: true
       }
    },
    scene: [
       BootScene,
       PreloadScene,
-      //GamePlayScene,
+      GamePlayScene,
       FullScreenBtnScene
    ],
    scale: {
