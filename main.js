@@ -1,9 +1,9 @@
 console.log("MAIN JS ✓");
 // ./main.js
 import BootScene from './core/bootScene.js';
-//import FullScreenBtnScene from './core/fullScreenBtnScene.js';
+import FullScreenBtnScene from './core/fullScreenBtnScene.js';
 import PreloadScene from './core/preloadScene.js';
-//import GamePlayScene from './scenes/gamePlayScene.js';
+import GamePlayScene from './scenes/gamePlayScene.js';
 
 const isMobile = window.innerWidth <= 640;
 const config = {
@@ -21,8 +21,8 @@ const config = {
    scene: [
       BootScene,
       PreloadScene,
-      //GamePlayScene,
-      //FullScreenBtnScene
+      GamePlayScene,
+      FullScreenBtnScene
    ],
    scale: {
       mode: Phaser.Scale.FIT,
