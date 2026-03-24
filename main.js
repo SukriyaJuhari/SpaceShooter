@@ -1,5 +1,4 @@
-
-
+console.log("MAIN JS ✓");
 // ./main.js
 import BootScene from './core/bootScene.js';
 import FullScreenBtnScene from './core/fullScreenBtnScene.js';

@@ -1,3 +1,4 @@
+console.log("fullScreenBtnScene JS ✓");
 // ./core/fullScreenBtnScene.js
 export default class FullScreenBtnScene extends Phaser.Scene {
   constructor() {

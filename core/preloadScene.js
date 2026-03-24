@@ -1,3 +1,4 @@
+console.log("PreloadScene JS ✓");
 // ./core/preloadScene.js
 
 export default class PreloadScene extends Phaser.Scene {

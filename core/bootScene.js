@@ -1,5 +1,5 @@
 // ./core/bootScene.js
-
+console.log("BootScene JS ✓");
 
 export default class BootScene extends Phaser.Scene {
   constructor() {
