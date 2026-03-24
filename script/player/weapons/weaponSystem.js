@@ -1,4 +1,5 @@
 // ./script/player/weapons/weaponBase.js
+
 export default class WeaponSystem extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, shipBox, x, y, textureKey) {
     super(scene, shipBox, x, y, textureKey);
@@ -37,8 +38,7 @@ export default class WeaponSystem extends Phaser.Physics.Arcade.Sprite {
   }
   
   
-  
-  
+
   
   preUpdate(time, delta) {
     super.preUpdate(time, delta);

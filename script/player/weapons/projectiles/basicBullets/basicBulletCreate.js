@@ -1,8 +1,9 @@
-// /script/player/weapons/projectiles/basicBulletCreate.js
+// /script/player/weapons/projectiles/basicBullet/basicBulletCreate.js
 import BasicBullet from './basicBullet.js';
 
 export default class BasicBulletCreate {
   constructor(scene, shipBox) {
+    
     this.scene = scene;
     this.shipBox = shipBox;
     

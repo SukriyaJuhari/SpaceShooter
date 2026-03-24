@@ -9,6 +9,7 @@ import AnimGroup from '../script/animations/animGroup.js';
 import ExplosionPool from "../script/effects/explosionPools.js";
 import AsteroidSpawner from "../script/obstacles/asteroidSpawner.js";
 import ItemPool from "../script/items/itemPool.js";
+import Missile from '../script/player/weapons/projectiles/missiles/missile.js';
 
 export default class GamePlayScene extends Phaser.Scene {
   constructor() {
@@ -24,7 +25,7 @@ export default class GamePlayScene extends Phaser.Scene {
     
     this.gameW = this.scale.width;
     this.gameH = this.scale.height;
-    this.ShowStatus = false;
+    this.ShowStatus = true;
     // MapBackground create
     this.MapBg = new MapBackground(this, 960);
     
@@ -39,7 +40,7 @@ export default class GamePlayScene extends Phaser.Scene {
     }).setDepth(10);
     
     this.textShowStatus = this.add.text(10, 80, "", {
-      fontSize: "24px",
+      fontSize: "16px",
       fill: "#ffffff"
     }).setDepth(9);
     
@@ -50,7 +51,7 @@ export default class GamePlayScene extends Phaser.Scene {
     
     //create animation 
     new AnimGroup(this);
-
+    
     // GROUP GLOBAL
     this.allObjects = this.physics.add.group();
     
@@ -80,6 +81,7 @@ export default class GamePlayScene extends Phaser.Scene {
     //Player create
     this.Player = new Player(this, this.gameW / 2, this.gameH / 1.1);
     
+    this.playerBox = this.Player.objek.ShipBox;
     //player atribut
     this.score = 0;
     this.playerHP = 5;
@@ -90,7 +92,9 @@ export default class GamePlayScene extends Phaser.Scene {
     this.burstBullet = this.Player.weaponCreate.list.burstBulletCreate.burstBulletGroup;
     this.asteroids = this.asteroidSpawner.asteroidGroup;
     this.items = this.itemPool.group;
-        //Hangar Gameplay
+    
+    
+    //Hangar Gameplay
     new MenuHangarUI(this)
     this.gameState = "hangar";
     
@@ -200,8 +204,45 @@ export default class GamePlayScene extends Phaser.Scene {
   }
   
   
-  update(time, delta) {
+  //missile homing target
+  getClosestEnemy(x, y) {
+    if (!this.asteroids) {
+      console.warn("Asteroid group belum ada!");
+      return null;
+    }
     
+    let closest = null;
+    let minDist = Infinity;
+    
+    this.asteroids.children.iterate(enemy => {
+      if (!enemy.active) return;
+      
+      const dist = Phaser.Math.Distance.Between(x, y, enemy.x, enemy.y);
+      
+      if (dist < minDist) {
+        minDist = dist;
+        closest = enemy;
+      }
+    });
+    
+    return closest;
+  }
+  
+  spawnMissile(x, y) {
+    const target = this.getClosestEnemy(x, y);
+    
+    if (!target) return;
+    
+    new Missile(this, x, y, target);
+  }
+  
+  
+  update(time, delta) {
+    this.children.each(child => {
+      if (child.update) {
+        child.update(time, delta);
+      }
+    });
     //=======================================================================================================================================================================================================
     // MapBackground update
     this.MapBg.update(time, delta);
@@ -209,7 +250,20 @@ export default class GamePlayScene extends Phaser.Scene {
     
     if (this.gameState !== "gameplay") return;
     
-    //this.asteroidSpawner.update(time);
+    
+    
+    
+    if (!this.missileTimer) this.missileTimer = 0;
+    
+    this.missileTimer += delta;
+    /*
+    if (this.missileTimer > 500) { // 0.5 detik
+      this.spawnMissile(this.playerBox.x, this.playerBox.y);
+      this.missileTimer = 0;
+    }
+    */
+    
+    
     
     // update Level. (difficulty)
     this.difficultyTimer++ * delta;
@@ -272,8 +326,7 @@ jumlah asteroid di layar : ${this.asteroids.countActive()}
 
 weaponsLevel : ${this.weaponsLevel}
 
-bulletLevel : ${this.Player.weaponCreate.list.burstBulletCreate.brustBulletLevel}
-
+Player.position : x = ${Math.floor(this.Player.objek.ShipBox.x)}, y = ${Math.floor(this.Player.objek.ShipBox.y)}
 `
       )
     }

@@ -35,8 +35,17 @@ export default function AnimGroup(scene) {
     });
     
   }
-  
-  
+  /*
+  *
+  *
+  *
+  *
+  *
+  *
+  *
+  *
+  *
+  */
   
   
   // efek muzzle flash
@@ -125,6 +134,19 @@ export default function AnimGroup(scene) {
     });
   }
   
+  //animasi missile
+      if (!scene.anims.exists('anim_missile')) {
+    scene.anims.create({
+      key: 'anim_missile',
+      frames: scene.anims.generateFrameNumbers('missile_sprsheet',
+      {
+        start: 0,
+        end: 5
+      }),
+      frameRate: 20,
+      repeat: -1,
+    });
+  }
   
   /*
    *

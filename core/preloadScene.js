@@ -142,13 +142,13 @@ export default class PreloadScene extends Phaser.Scene {
     //(player weapon) HeavyMissile spritesheet (WxH Belum diatur)
     this.load.spritesheet('peavyMissile_Sprsheet', 'assets/art/spritesheet/player/weapons/projectile/heavyMissile/heavyMissile_sprsheet.png', {
       frameWidth: 274,
-      frameHeight: 343
+      frameHeight: 274
     });
     
     //(player weapon) Missile spritesheet (WxH Belum diatur)
-    this.load.spritesheet('missile_Sprsheet', 'assets/art/spritesheet/player/weapons/projectile/missile/missile_sprsheet.png', {
+    this.load.spritesheet('missile_sprsheet', 'assets/art/spritesheet/player/weapons/projectiles/missile/missile_sprsheet.png', {
       frameWidth: 274,
-      frameHeight: 343
+      frameHeight: 274
     });
     
     //(player weapon) leser_blue_sprsheet spritesheet (WxH Belum diatur)

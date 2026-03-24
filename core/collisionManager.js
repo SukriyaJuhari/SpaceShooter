@@ -30,29 +30,29 @@ export default class CollisionManager {
   // =============================
   
   hitEnemy(projectiles, enemys) {
-  if (!projectiles.active || !enemys.active) return;
+    if (!projectiles.active || !enemys.active) return;
+    
+    // damage universal
+    projectiles.onHit(enemys);
+    
+    switch (projectiles.type) {
+      case "basicBullet":
+        // effects....
+        break;
+        
+      case "burstBullet":
+        projectiles.burstBulletEffect(enemys);
+        break;
+        
+      case "missile":
 
-  // damage universal
-  projectiles.onHit(enemys);
-
-  switch (projectiles.type) {
-    case "basicBullet":
-      // effects....
-      break;
-
-    case "burstBullet":
-      projectiles.burstBulletEffect(enemys);
-      break;
-
-    case "missile":
-      this.explosionEffect(projectiles);
-      break;
-
-    case "laser":
-      this.laserEffect(projectiles, enemys);
-      break;
+        break;
+        
+      case "laser":
+        this.laserEffect(projectiles, enemys);
+        break;
+    }
   }
-}
   
   
   hitPlayer(player, asteroid) {

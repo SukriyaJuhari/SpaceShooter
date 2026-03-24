@@ -1,6 +1,5 @@
-// script/player/weapons/projectiles/burstBullet.js
-
-import WeaponSystem from '../weaponSystem.js';
+// /script/player/weapons/projectiles/basicBullet/basicBullet.js
+import WeaponSystem from '../../weaponSystem.js';
 
 export default class BasicBullet extends WeaponSystem {
   constructor(scene, x, y) {

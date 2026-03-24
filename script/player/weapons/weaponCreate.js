@@ -1,6 +1,8 @@
 // script/player/weapons/weaponCreate.js
-import BasicBulletCreate from './projectiles/basicBulletCreate.js';
-import BurstBulletCreate from './projectiles/burstBulletCreate.js';
+import BasicBulletCreate from './projectiles/basicBullets/basicBulletCreate.js';
+import BurstBulletCreate from './projectiles/burstBullets/burstBulletCreate.js';
+
+
 export default class WeaponCreate {
   constructor(scene, shipBox) {
     this.scene = scene;
@@ -32,6 +34,10 @@ export default class WeaponCreate {
     
     this.currentWeapon = this.list[selected];
   }
+  
+  
+  
+
   
   
   
