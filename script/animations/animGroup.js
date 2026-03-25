@@ -274,7 +274,7 @@ export default function AnimGroup(scene) {
    */
   
   
-  
+  //animasi Effect explosion
   if (!scene.anims.exists('anim_explosionLarge1')) {
     scene.anims.create({
       key: 'anim_explosionLarge1',
@@ -288,6 +288,17 @@ export default function AnimGroup(scene) {
   }
   
   
+  if (!scene.anims.exists('anim_explosionLarge2')) {
+    scene.anims.create({
+      key: 'anim_explosionLarge2',
+      frames: scene.anims.generateFrameNumbers('explosionLarge2', {
+        start: 0,
+        end: 11
+      }),
+      frameRate: 20,
+      repeat: 0
+    });
+  }
   
   
   /*

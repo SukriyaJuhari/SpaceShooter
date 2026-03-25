@@ -11,20 +11,36 @@ export default class BurstBullet extends WeaponSystem {
     this.tag = "projectiles";
     this.type = "burstBullet";
     scene.allObjects.add(this);
-    this.setOrigin(0.5, 0.1);
+    this.setOrigin(0.5, 0.2);
     // properti khusus bullet
     this.damage = 3;
-    this.lifespan = 1000;
+    this.lifespan = 2000;
+    this.lifeTimer = 0;
+    this.spawnTime = this.scene.time.now;
     this.speedY = 800;
     this.setDepth(6).setScale(0.1, 0.5);
-    
+    this.target = null;
+    this.isHoming = false;
   }
   
   fire(shipBox, x, y, offsetX) {
     super.fire(x, y);
     
-    this.setVelocityY(-this.speedY);
-    //  muzzle pakai offsetX (VISUAL)
+    // reset state
+    this.isHoming = false;
+    this.target = null;
+    
+    // reset TOTAL
+    this.isHoming = false;
+    this.target = null;
+    
+    this.setVelocity(0, 0);
+    this.setAngularVelocity(0);
+    this.setRotation(0);
+    
+    this.setVelocity(0, -this.speedY
+      
+    );
     let muzzle = this.scene.add.sprite(offsetX, -80, 'anim_burstBulletMuzzle')
       .setScale(0.3);
     
@@ -44,19 +60,53 @@ export default class BurstBullet extends WeaponSystem {
     
   }
   
-  burstBulletEffect(target) {
-  let spark = this.scene.add.sprite(target.x, target.y, 'sparkBulltEffect')
-    .setScale(0.6)
-    .setDepth(7);
-
-  this.scene.sound.play('sfxAsteroidExplosion', {
-    volume: this.scene.SFXvolume - 0.3,
-    rate: 2.0,
-    detune: 0
-  });
-
-  spark.play('anim_sparkBulltEffect');
-  spark.once('animationcomplete', () => spark.destroy());
-}
+  fireHoming(shipBox, x, y) {
+    this.setRotation = rotation;
+    this.play('anim_burstBullet');
+    
+  }
   
+  
+  burstBulletEffect(target) {
+    let spark = this.scene.add.sprite(target.x, target.y, 'sparkBulltEffect')
+      .setScale(0.6)
+      .setDepth(7);
+    
+    this.scene.sound.play('sfxAsteroidExplosion', {
+      volume: this.scene.SFXvolume - 0.3,
+      rate: 2.0,
+      detune: 0
+    });
+    
+    spark.play('anim_sparkBulltEffect');
+    spark.once('animationcomplete', () => spark.destroy());
+  }
+  
+  update() {
+    if (!this.active) return;
+    
+    if (this.isHoming && this.target && this.target.active) {
+      
+      const angle = Phaser.Math.Angle.Between(
+        this.x,
+        this.y,
+        this.target.x,
+        this.target.y
+      );
+      
+      this.rotation = angle + Math.PI / 2;
+      
+      this.body.velocity.x = Math.cos(angle) * this.speedY;
+      this.body.velocity.y = Math.sin(angle) * this.speedY;
+      
+    } else if (this.isHoming) {
+      
+      // ❗ kalau target hilang → lanjut lurus sesuai arah terakhir
+      this.scene.physics.velocityFromRotation(
+        this.rotation - Math.PI / 2,
+        this.speedY,
+        this.body.velocity
+      );
+    }
+  }
 }

@@ -45,7 +45,8 @@ export default class CollisionManager {
         break;
         
       case "missile":
-
+        
+        projectiles.onHit(enemys);
         break;
         
       case "laser":
@@ -147,7 +148,14 @@ export default class CollisionManager {
         scene.Player.shieldTimer = scene.time.now;
         scene.Player.shieldSprite.setVisible(true);
         break;
+        
+      case "missilePick":
+        this.scene.Player.missilePickActive = true;
+        this.scene.Player.missilePickTimer = this.scene.time.now;
+        this.scene.Player.missilePickDuration = 10000; // 10 detik
+        break;
     }
+    
     
     this.destroyItem(item);
   }

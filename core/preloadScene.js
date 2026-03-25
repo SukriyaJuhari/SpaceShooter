@@ -1,4 +1,4 @@
-console.log("PreloadScene JS ✓");
+
 // ./core/preloadScene.js
 
 export default class PreloadScene extends Phaser.Scene {
@@ -56,6 +56,8 @@ export default class PreloadScene extends Phaser.Scene {
     //(load item) HealthOff
     this.load.image('healthOff', 'assets/art/image/ui/healthOff.png');
     
+//(load item) HealthOff
+    this.load.image('missilePick','assets/art/image/item/missile.png');
     
     //(load img wapon)
     this.load.image('bullet1_blue', 'assets/art/image/player/projectiles/bullet/spr_bullet1_blue.png');
@@ -191,7 +193,7 @@ export default class PreloadScene extends Phaser.Scene {
       }
     );
     
-    //effects explosion explosionLarge1 (WxH Belum diatur)
+    //effects explosion explosionLarge2 (WxH Belum diatur)
     this.load.spritesheet(
       'explosionLarge2',
       'assets/art/spritesheet/effects/explosion/explosion_large2_sprsheet.png',
@@ -202,7 +204,7 @@ export default class PreloadScene extends Phaser.Scene {
     );
     
     
-    //effects explosion explosionLarge2 (WxH Belum diatur)
+    //effects explosion explosionGreenlarge (WxH Belum diatur)
     this.load.spritesheet(
       'explosionGreenlarge',
       'assets/art/spritesheet/effects/explosion/explosion_green_large_sprsheet.png',
@@ -212,7 +214,7 @@ export default class PreloadScene extends Phaser.Scene {
       }
     );
     
-    //effects explosion explosionLarge2 (WxH Belum diatur)
+    //effects explosion sparkBulltEffect (WxH Belum diatur)
     this.load.spritesheet(
       'sparkBulltEffect',
       'assets/art/spritesheet/effects/explosion/sparkBulltEffect_sprsheet.png',

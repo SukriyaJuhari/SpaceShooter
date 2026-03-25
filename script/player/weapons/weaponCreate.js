@@ -2,7 +2,6 @@
 import BasicBulletCreate from './projectiles/basicBullets/basicBulletCreate.js';
 import BurstBulletCreate from './projectiles/burstBullets/burstBulletCreate.js';
 
-
 export default class WeaponCreate {
   constructor(scene, shipBox) {
     this.scene = scene;
@@ -23,6 +22,8 @@ export default class WeaponCreate {
     this.isShooting = false;
   }
   
+  
+  
   setWeaponByLevel(level) {
     let selected = "basicBulletCreate";
     
@@ -37,11 +38,13 @@ export default class WeaponCreate {
   
   
   
-
+  
+  
   
   
   
   update(time, delta) {
+    
     
     // ambil level dari scene
     const level = this.scene.weaponsLevel;
@@ -51,5 +54,7 @@ export default class WeaponCreate {
     
     // jalankan weapon aktif
     this.currentWeapon.update(time, this.isShooting);
+    
+
   }
 }

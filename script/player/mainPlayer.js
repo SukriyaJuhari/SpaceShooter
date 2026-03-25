@@ -1,6 +1,7 @@
 //./script/player/mainPlayer.js 
 
 import { Objek, Thruster, Controller, WeaponCreate } from "./index.js";
+import Missile from './weapons/projectiles/missiles/missile.js';
 
 export default class Player {
   constructor(scene, x, y, spriteKey = 'playerShipLevel1', spriteTiltKey = 'playerShipLevel1Tilt') {
@@ -31,10 +32,16 @@ export default class Player {
     // Weapon Player 
     this.weaponCreate = new WeaponCreate(scene, shipBox);
     
+    
+    
     // shield system
     this.shieldActive = false;
     this.shieldTimer = 0;
     this.shieldDuration = 10000; // 10 detik
+    
+    this.missilePickActive = false;
+    this.missilePickTimer = 0;
+    this.missilePickDuration = 10000; // 10 detik
     
     
     // controller Player (input Touch dan cursor )
@@ -52,9 +59,41 @@ export default class Player {
     
   }; //constructor())
   
+  
+  
   thrusterVisible(bool) {
     this.thruster.ThrusterR.setVisible(bool);
     this.thruster.ThrusterL.setVisible(bool);
+  }
+  
+  
+  //missile homing target
+  getClosestEnemy(x, y) {
+    if (!this.scene.asteroids) {
+      return null;
+    }
+    
+    let closest = null;
+    let minDist = Infinity;
+    
+    this.scene.asteroids.children.iterate(enemy => {
+      if (!enemy.active) return;
+      
+      const dist = Phaser.Math.Distance.Between(x, y, enemy.x, enemy.y);
+      
+      if (dist < minDist) {
+        minDist = dist;
+        closest = enemy;
+      }
+    });
+    
+    return closest;
+  }
+  //spawn missile
+  spawnMissile(x, y) {
+    const target = this.getClosestEnemy(x, y);
+    if (!target) return;
+    this.missile = new Missile(this.scene, x, y, target);
   }
   
   update(time, delta) {
@@ -63,10 +102,13 @@ export default class Player {
     
     // tembak hanya jika layar ditekan
     if (this.controller.shootActive) {
-
-      this.weaponCreate.isShooting = this.controller.shootActive;
       this.weaponCreate.update(time, delta);
+      this.weaponCreate.isShooting = this.controller.shootActive;
+      
     }
+    
+    
+    
   }; //update() 
   
 }; //export default class Player 

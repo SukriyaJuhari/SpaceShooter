@@ -58,14 +58,15 @@ export default class asteroid extends Phaser.Physics.Arcade.Sprite {
       
       this.scene.sound.play("sfxAsteroidExplosion", {
         volume: this.scene.SFXvolume,
-        rate: this.scene.SystemRate
+        rate: 3.0,
+        detune: 1.5
       });
       
       // buat explosionPool explosion baru
       this.scene.explosionPool.play(this.x, this.y);
       
       
-        this.scene.itemPool.spawn(this.x, this.y);
+        this.scene.itemPool.spawn(this.x, this.y, 8);
 
       
       // tambah score

@@ -69,6 +69,14 @@ export default class GamePlayScene extends Phaser.Scene {
     );
     
     
+    
+    
+    
+
+    
+    
+    
+    
     //create effects
     this.explosionPool = new ExplosionPool(this);
     
@@ -83,9 +91,12 @@ export default class GamePlayScene extends Phaser.Scene {
     
     this.playerBox = this.Player.objek.ShipBox;
     //player atribut
-    this.playerHP = 5;
+    this.playerHP = 2;
     this.maxHP = 5;
     this.hpIcons = [];
+    
+    
+
     
     // ambil group object
     this.burstBullet = this.Player.weaponCreate.list.burstBulletCreate.burstBulletGroup;
@@ -203,37 +214,6 @@ export default class GamePlayScene extends Phaser.Scene {
   }
   
   
-  //missile homing target
-  getClosestEnemy(x, y) {
-    if (!this.asteroids) {
-      console.warn("Asteroid group belum ada!");
-      return null;
-    }
-    
-    let closest = null;
-    let minDist = Infinity;
-    
-    this.asteroids.children.iterate(enemy => {
-      if (!enemy.active) return;
-      
-      const dist = Phaser.Math.Distance.Between(x, y, enemy.x, enemy.y);
-      
-      if (dist < minDist) {
-        minDist = dist;
-        closest = enemy;
-      }
-    });
-    
-    return closest;
-  }
-  
-  spawnMissile(x, y) {
-    const target = this.getClosestEnemy(x, y);
-    
-    if (!target) return;
-    
-    new Missile(this, x, y, target);
-  }
   
   
   update(time, delta) {
@@ -252,15 +232,8 @@ export default class GamePlayScene extends Phaser.Scene {
     
     
     
-    if (!this.missileTimer) this.missileTimer = 0;
     
-    this.missileTimer += delta;
-    /*
-    if (this.missileTimer > 500) { // 0.5 detik
-      this.spawnMissile(this.playerBox.x, this.playerBox.y);
-      this.missileTimer = 0;
-    }
-    */
+    
     
     
     
@@ -343,7 +316,7 @@ Player.position : x = ${Math.floor(this.Player.objek.ShipBox.x)}, y = ${Math.flo
     //=======================================================================================================================================================================================================
     //=======================================================================================================================================================================================================
     
-    
+
     // shield timer
     if (this.Player.shieldActive) {
       
@@ -354,9 +327,20 @@ Player.position : x = ${Math.floor(this.Player.objek.ShipBox.x)}, y = ${Math.flo
         this.Player.shieldSprite.setVisible(false);
         
       }
-      
     }
     
+    // missile timer
+    if (this.Player.missilePickActive) {
+      if (!this.missileTimer) this.missileTimer = 0;
+      this.missileTimer += delta;
+      
+      if (this.missileTimer > 500) { // 0.5 detik
+        this.Player.spawnMissile(this.playerBox.x, this.playerBox.y);
+        this.missileTimer = 0;
+      }
+      if (this.time.now - this.Player.missilePickTimer > this.Player.missilePickDuration) this.Player.missilePickActive = false;
+        
+    }
     
   }
 }
